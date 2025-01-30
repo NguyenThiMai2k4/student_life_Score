@@ -4,14 +4,16 @@ import Style from "./Style.js";
 import React from 'react'
 import APIs, { endpoints } from "../../configs/API";
 import { Chip, Searchbar, List } from 'react-native-paper';
+import { useNavigation } from "@react-navigation/native";
 
-const Home = () =>{
+const HomeScreen = () =>{
     const [extract_activity, setExtractActivity] = React.useState([]);
     const [criteria, setCriteria] = React.useState([]);
     const [page, setPage] = React.useState(1);
     const [q, setQ] =   React.useState("");
     const [loading, setLoading] = React.useState(false);
     const [criteriaId, setCriteriaId] = React.useState("")
+    const nav = useNavigation();
 
     const loadExtractActivity = async() => {
         if(page > 0){
@@ -69,15 +71,13 @@ const Home = () =>{
     }
 
     return (   
-    <View style={[MyStyle.container, Style.margin]}>
-        <View>
-            <ImageBackground
+    <View style={MyStyle.container}>
+        <ImageBackground
                 style={[Style.headerImg, {paddingTop: StatusBar.currentHeight}]}
                 source={require('../../assets/extraActivity.png')}
             >
                 <StatusBar translucent backgroundColor="#872f2b"/>
-            </ImageBackground>
-        </View>
+        </ImageBackground>
         <View style={Style.row}>
         <TouchableOpacity onPress={() => search("", setCriteriaId)} >
             <Chip style={Style.margin} icon="label">Tất cả</Chip>
@@ -99,9 +99,11 @@ const Home = () =>{
                     <Text>Ngày kết thúc: {item.end_date}</Text>
                 </View>
             }
-            left={props => <List.Icon {...props} icon="folder" />} />
+            left={props => <TouchableOpacity onPress={() => nav.navigate('')}>
+                <List.Icon {...props} icon="folder" />
+            </TouchableOpacity>} />
              }/>
         </View>
     )
 }
-export default Home
+export default HomeScreen
