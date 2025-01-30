@@ -9,6 +9,7 @@ import {NavigationContainer} from "@react-navigation/native";
 import {createNativeStackNavigator} from "@react-navigation/native-stack";
 import VerifyOTP from "./components/Signup/auth";
 import HomeScreen from "./components/Home/Home";
+import DetailActivity from "./components/Home/DetailActivity"
 import MyUserReducer from "./reducers/MyUserReducer";
 import MyContext from "./configs/MyContext";
 import logout from "./components/Login/logout";
@@ -29,9 +30,9 @@ export default function App() {
                         <Stack.Screen name="HomeScreen" component={HomeScreen} options={{
                             title: user?.email || 'Home',
                             headerStyle: {
-                                backgroundColor: '#f4511e',
+                                backgroundColor: 'white',
                             },
-                            headerTintColor: '#fff',
+                            headerTintColor: '#007aff',
                             headerTitleStyle: {
                                 fontWeight: 'bold',
                             },
@@ -40,6 +41,7 @@ export default function App() {
                     }
                     <Stack.Screen name="SignupScreen" component={SignupScreen}/>
                     <Stack.Screen name="VerifyOTP" component={VerifyOTP}/>
+                    <Stack.Screen name="DetailActivity" component={DetailActivity}></Stack.Screen>
 
                 </Stack.Navigator>
 
