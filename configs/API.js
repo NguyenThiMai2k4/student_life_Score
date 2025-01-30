@@ -5,7 +5,7 @@ const HOST = 'https://pointapp.pythonanywhere.com/'
 export const endpoints = {
     'criteria' : '/criteria',
     'extract_activity': '/extract_activity/',
-
+    'detail_training_point': criteriaId => '/criteria/${criteriaId}/detail_training_point/'
 }
 
 export const authApi = () => {
