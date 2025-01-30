@@ -1,10 +1,9 @@
 import MyStyle from "../../styles/MyStyle"
-import {View,RefreshControl, ScrollView, Text, Image, TextInput, TouchableOpacity, SafeAreaView, StyleSheet, Pressable, ActivityIndicator, FlatList} from 'react-native';
-import Style from "./Styles.js";
+import {View,RefreshControl,  StatusBar, ScrollView, ImageBackground, Text, Image, TextInput, TouchableOpacity, SafeAreaView, StyleSheet, Pressable, ActivityIndicator, FlatList} from 'react-native';
+import Style from "./Style.js";
 import React from 'react'
 import APIs, { endpoints } from "../../configs/API";
 import { Chip, Searchbar, List } from 'react-native-paper';
-
 
 const Home = () =>{
     const [extract_activity, setExtractActivity] = React.useState([]);
@@ -69,8 +68,16 @@ const Home = () =>{
             setPage(page + 1);
     }
 
-    return (
-    <View style={[Style.container, Style.margin]}>
+    return (   
+    <View style={[MyStyle.container, Style.margin]}>
+        <View>
+            <ImageBackground
+                style={[Style.headerImg, {paddingTop: StatusBar.currentHeight}]}
+                source={require('../../assets/extraActivity.png')}
+            >
+                <StatusBar translucent backgroundColor="#872f2b"/>
+            </ImageBackground>
+        </View>
         <View style={Style.row}>
         <TouchableOpacity onPress={() => search("", setCriteriaId)} >
             <Chip style={Style.margin} icon="label">Tất cả</Chip>

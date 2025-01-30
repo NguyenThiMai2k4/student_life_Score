@@ -12,17 +12,20 @@ const VerifyOTP = ({route}) => {
     const [otp, setOtp] = useState('');
     const [verificationId, setVerificationId] = useState(null);
     const recaptchaVerifier = useRef(null);
+    const sendOTP = async () => {
+        try {
+            await firebase.auth().sendPasswordResetEmail(email);
+            setVerificationId(true);
+            console.log("CODE:"+verificationId);
+            Alert.alert("Thành công", "Mã OTP đã được gửi đến email của bạn");
+        } catch (error) {
+            Alert.alert("Lỗi", error.message);
+        }
+    };
 
-    // Gửi mã OTP đến email
-    // const sendOTP = () => {
-    //   const emailProvider = new firebase.auth.
-    // };
-
-    // Xác thực mã OTP
     const confirmOTP = async () => {
         try {
-            const credential = firebase.auth.PhoneAuthProvider.credential(verificationId, otp);
-            await firebase.auth().signInWithCredential(credential);
+            await firebase.auth().confirmPasswordReset(verificationId, otp);
             Alert.alert("Thành công", "Email đã được xác thực");
             // Thực hiện các hành động tiếp theo sau khi xác thực
         } catch (error) {
