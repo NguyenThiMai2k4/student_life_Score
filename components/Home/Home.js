@@ -72,16 +72,16 @@ const HomeScreen = () => {
     }
 
     return (
-        <View style={MyStyle.container}>
+        <View style={Style.container}>
             <ImageBackground
                 style={[Style.headerImg, { paddingTop: StatusBar.currentHeight }]}
-                source={require('../../assets/extraActivity.png')}
+                source={require('../../assets/extractActivity.png')}
             >
                 <StatusBar translucent backgroundColor="#872f2b" />
             </ImageBackground>
             <View style={Style.row}>
                 <TouchableOpacity onPress={() => search("", setCriteriaId)} >
-                    <Chip style={Style.margin} icon="label">Tất cả</Chip>
+                    <Chip style={Style.margin} icon="label" >Tất cả</Chip>
 
                 </TouchableOpacity>
                 {criteria.map(c =>
@@ -102,12 +102,11 @@ const HomeScreen = () => {
                     }
                     left={props => <List.Icon {...props} icon="folder" />}
                     right={props => (
-                        <TouchableOpacity style={Style.detailButton} onPress={() => nav.navigate("DetailActivity", { id: item.id })}>
+                        <TouchableOpacity style={Style.detailButton} onPress={() => nav.navigate("DetailActivity", { "activityId": item.id })}>
                             <Text style={Style.detailButtonText}>Xem chi tiết</Text>
                         </TouchableOpacity>
                     )}
                 />
-
             } />
         </View>
     )

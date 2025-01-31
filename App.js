@@ -20,7 +20,6 @@ export default function App() {
     const [user, dispatch] = useReducer(MyUserReducer, null);
     return (
         <MyContext.Provider value={[user, dispatch]}>
-
             <NavigationContainer>
                 <Stack.Navigator screenOptions={{headerRight: logout}}>
                     {user === null ? <>

@@ -3,7 +3,7 @@ import { StyleSheet } from "react-native";
 export default StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: "#f7f7f7", // Màu nền nhẹ nhàng
+        backgroundColor: "white",
     },
     row: {
         flexDirection: "row",
@@ -24,16 +24,15 @@ export default StyleSheet.create({
         borderRadius: 10,
     },
     detailButton: {
-        backgroundColor: "#4A90E2", // Xanh nước biển nhẹ
+        backgroundColor: "#E8F9FF", 
         paddingVertical: 8,
         paddingHorizontal: 12,
-        borderRadius: 25,
+        borderRadius: 10,
         alignItems: "center",
         justifyContent: "center",
-        elevation: 3, // Thêm bóng đổ
     },
     detailButtonText: {
-        color: "white",
+        color: "#2973B2",
         fontWeight: "bold",
         fontSize: 12,
     },
