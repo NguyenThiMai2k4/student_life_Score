@@ -44,8 +44,11 @@ const LoginScreen = ({navigation}) => {
 
             let user = await authApi(res.data.access_token).get(endpoints['current-user'])
             dispatch({
-                "type": "login",
-                "payload": user.data,
+                type: "login",
+                payload: {
+                    user: user.data,
+                    token: res.data.access_token, 
+                },
             });
             console.info("id user:"+user.data.id);
 

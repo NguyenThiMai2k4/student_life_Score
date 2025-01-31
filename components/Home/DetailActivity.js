@@ -1,18 +1,20 @@
 import MyStyle from "../../styles/MyStyle";
-import { View, RefreshControl, StatusBar, ScrollView, ImageBackground, Text, Image, TextInput, TouchableOpacity, SafeAreaView, StyleSheet, Pressable, ActivityIndicator, FlatList } from 'react-native';
+import { Alert, View, RefreshControl, StatusBar, ScrollView, ImageBackground, Text, Image, TextInput, TouchableOpacity, SafeAreaView, StyleSheet, Pressable, ActivityIndicator, FlatList } from 'react-native';
 import Style from "./Style.js";
 import DetailStyle from "./DetailStyle.js"
-import React, { useState, useEffect } from "react";
-import APIs, { endpoints } from "../../configs/API";
+import React, { useState,useContext, useEffect } from "react";
+import APIs, { authApi, endpoints } from "../../configs/API";
 import { Card } from "react-native-paper";
+import MyContext from "../../configs/MyContext";
+
 
 const DetailActivity = ({ route }) => {
     const [detailActivity, setDetailActivity] = useState([]);
     const [loading, setLoading] = useState(true);
     const activityId = route.params?.activityId;
+    const [user, dispatch] = useContext(MyContext)
+    const accessToken = user?.token;
 
-
-    
     const loadDetailExtractActivity = async () => {
         try {
             setLoading(true);
@@ -31,22 +33,34 @@ const DetailActivity = ({ route }) => {
 
 
     const registerActivity = async (itemId) => {
+        if (!accessToken) {
+            Alert.alert("Lỗi", "Bạn cần đăng nhập để đăng ký hoạt động.");
+            return;
+        } else {
+            console.log("token", accessToken);
+        }
+    
         try {
-            console.log(itemId)
-            const response = await APIs.post(endpoints["register_detail_activity"](itemId), {
-                evidence: 'some evidence',
-            });
-            console.log(response); // In ra phản hồi để kiểm tra
+            console.log(itemId);
+            const response = await authApi(accessToken).post(endpoints["register_detail_activity"](itemId));
             if (response.status === 201) {
                 Alert.alert("Đăng ký thành công!");
             } else {
-                Alert.alert("Đăng ký thất bại. Vui lòng thử lại.");
+                const errorMessage = response?.data?.detail || "Đăng ký thất bại. Vui lòng thử lại.";
+                Alert.alert("Lỗi", errorMessage);
             }
         } catch (error) {
-            console.error("Lỗi khi đăng ký:", error);
-            Alert.alert("Đăng ký thất bại!");
+            if (error.response) {
+                // Lấy thông báo lỗi chi tiết từ response của API
+                const errorMessage = error.response?.data?.error || "Đăng ký thất bại.";
+                Alert.alert("Lỗi", errorMessage);  // Hiển thị thông báo lỗi từ server
+            } else {
+                Alert.alert("Lỗi", "Không thể kết nối đến server.");
+            }
         }
-    };    
+    };
+    
+    
 
     if (loading) return <ActivityIndicator size="large" color="#007aff" />;
 
