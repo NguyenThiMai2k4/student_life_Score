@@ -12,6 +12,10 @@ import HomeScreen from "./components/Home/Home";
 import DetailActivity from "./components/Home/DetailActivity";
 import MyUserReducer from "./reducers/MyUserReducer";
 import MyContext from "./configs/MyContext";
+import Feature from './components/Feature/Feature.js';
+import ListRegister from './components/Student/ListRegister.js';
+import ViewPoint from './components/Student/ViewPoint.js';
+import Missing from './components/Student/Missing.js';
 
 const Drawer = createDrawerNavigator();
 const Stack = createNativeStackNavigator();
@@ -21,8 +25,17 @@ const HomeStack = ({ user }) => (
     <Stack.Navigator>
         <Stack.Screen name="HomeScreen" component={HomeScreen} options={{ title: user?.email || 'Home' }} />
         <Stack.Screen name="DetailActivity" component={DetailActivity} options={{ title: "Chi tiết hoạt động" }} />
+        <Stack.Screen name="Missing" component={Missing} options={{title: "Báo thiếu hoạt động"}}/>
     </Stack.Navigator>
 );
+const Tool = () => (
+    <Stack.Navigator>
+        <Stack.Screen name="Feature"  component={Feature} />
+        <Stack.Screen name="ListRegister" component={ListRegister}/>
+        <Stack.Screen name="ViewPoint" component={ViewPoint} options={{title:"Xem điểm rèn luyện"}} />
+        <Stack.Screen name="Missing" component={Missing} options={{title: "Báo thiếu hoạt động"}}/>
+    </Stack.Navigator>
+)
 
 export default function App() {
     const [user, dispatch] = useReducer(MyUserReducer, null);
@@ -48,6 +61,7 @@ export default function App() {
                         >
                             {() => <HomeStack user={user} />}
                         </Drawer.Screen>
+                        <Drawer.Screen name="Tool" component={Tool} options={{ title:"Chức năng" }}  />
                         <Drawer.Screen name="VerifyOTP" component={VerifyOTP} />
                         <Drawer.Screen name="Logout" component={Logout} />
                     </Drawer.Navigator>

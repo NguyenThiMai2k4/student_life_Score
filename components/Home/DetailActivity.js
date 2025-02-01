@@ -2,11 +2,11 @@ import MyStyle from "../../styles/MyStyle";
 import { Alert, View, RefreshControl, StatusBar, ScrollView, ImageBackground, Text, Image, TextInput, TouchableOpacity, SafeAreaView, StyleSheet, Pressable, ActivityIndicator, FlatList } from 'react-native';
 import Style from "./Style.js";
 import DetailStyle from "./DetailStyle.js"
-import React, { useState,useContext, useEffect } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import APIs, { authApi, endpoints } from "../../configs/API";
 import { Card } from "react-native-paper";
 import MyContext from "../../configs/MyContext";
-
+import { useNavigation } from "@react-navigation/native";
 
 const DetailActivity = ({ route }) => {
     const [detailActivity, setDetailActivity] = useState([]);
@@ -14,6 +14,7 @@ const DetailActivity = ({ route }) => {
     const activityId = route.params?.activityId;
     const [user, dispatch] = useContext(MyContext)
     const accessToken = user?.token;
+    const nav = useNavigation();
 
     const loadDetailExtractActivity = async () => {
         try {
@@ -39,7 +40,7 @@ const DetailActivity = ({ route }) => {
         } else {
             console.log("token", accessToken);
         }
-    
+
         try {
             console.log(itemId);
             const response = await authApi(accessToken).post(endpoints["register_detail_activity"](itemId));
@@ -59,8 +60,8 @@ const DetailActivity = ({ route }) => {
             }
         }
     };
-    
-    
+
+
 
     if (loading) return <ActivityIndicator size="large" color="#007aff" />;
 
@@ -99,6 +100,12 @@ const DetailActivity = ({ route }) => {
                             onPress={() => registerActivity(item.id)}
                         >
                             <Text style={DetailStyle.registerButtonText}>Đăng ký</Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity
+                            style={[DetailStyle.registerButton, { marginLeft: 10, backgroundColor: '#e74c3c' }]} // Màu nút báo thiếu
+                            onPress={() => nav.navigate("Missing", {"detailActivityId":item.id})}
+                        >
+                            <Text style={DetailStyle.registerButtonText}>Báo thiếu</Text>
                         </TouchableOpacity>
                     </Card.Content>
                 </Card>

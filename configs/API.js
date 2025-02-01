@@ -10,6 +10,9 @@ export const endpoints = {
     'extract_activity': '/extract_activity/',
     'detail_activity': (activityId) => `/extract_activity/${activityId}/detail_activity/`,
     'register_detail_activity': (detailId) => `detail_extract_activity/${detailId}/register_detail_activity/`,
+    'list_register': (studentId) => `student/${studentId}/list_register/`,
+    'list_point': (studentId) => `student/${studentId}/list_point/`,
+    'missing_detail_activity': (detailActivityId) =>`detail_extract_activity/${detailActivityId}/missing_detail_activity/`
 }
 
 export const authApi = (accessToken) => {

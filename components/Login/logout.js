@@ -13,7 +13,6 @@ const Logout = ({navigation}) => {
         return <Button title={"Đăng nhập"} onPress={()=>navigation.navigate("LoginScreen")}/>
     return(
         <Button title={"Đăng xuất"} onPress={logout}/>
-
     )
 };
 export default Logout;
