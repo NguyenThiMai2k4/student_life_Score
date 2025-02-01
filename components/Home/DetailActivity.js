@@ -78,7 +78,7 @@ const DetailActivity = ({ route }) => {
                 <Card style={DetailStyle.card}>
                     <Card.Content>
                         <Text style={DetailStyle.title}>Tên hoạt động: {extractActivity.name}</Text>
-                        <Text style={DetailStyle.detail}>Điều: {extractActivity.criteria}</Text>
+                        <Text style={DetailStyle.detail}>Điều: {extractActivity.criteria.name}</Text>
                         <Text style={DetailStyle.detail}>Mô tả: {extractActivity.description}</Text>
                         <Text style={DetailStyle.detail}>Ngày bắt đầu: {extractActivity.start_date}</Text>
                         <Text style={DetailStyle.detail}>Ngày kết thúc: {extractActivity.end_date}</Text>

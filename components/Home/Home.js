@@ -85,7 +85,7 @@ const HomeScreen = () => {
 
                 </TouchableOpacity>
                 {criteria.map(c =>
-                    <TouchableOpacity key={c.id} onPress={() => search(c.id, setCriteriaId)}>
+                    <TouchableOpacity key={c.name} onPress={() => search(c.name, setCriteriaId)}>
                         <Chip style={Style.margin} icon="label" >Điều {c.name}</Chip>
                     </TouchableOpacity>)}
             </View>
