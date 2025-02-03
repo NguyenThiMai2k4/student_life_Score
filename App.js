@@ -10,13 +10,8 @@ import {createNativeStackNavigator} from "@react-navigation/native-stack";
 import {createDrawerNavigator} from "@react-navigation/drawer";
 import VerifyOTP from "./components/Signup/auth";
 import HomeScreen from "./components/Home/Home";
-import DetailActivity from "./components/Home/DetailActivity"
 import MyUserReducer from "./reducers/MyUserReducer";
 import MyContext from "./configs/MyContext";
-import logout from "./components/Login/logout";
-import Feather from '@expo/vector-icons/Feather';
-import {useNavigation, DrawerActions} from '@react-navigation/native';
-import ExtractActivity from "./components/Assistant/ExtractActivity";
 import AddExtractActivity from "./components/Assistant/ExtractActivity";
 import AddDetailActivity from "./components/Assistant/AddDetailActivity";
 
