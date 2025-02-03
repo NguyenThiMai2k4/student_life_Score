@@ -19,6 +19,8 @@ export const endpoints = {
     'comments' :(activityId) => `/extract_activity/${activityId}/comments/`,
     'likes': (activityId) => `/extract_activity/${activityId}/likes/`,
     'profile': (userId) => `/user/${userId}/profile/`,
+    'create_extract_activity':criteriaId=>`/criteria/${criteriaId}/get_activity/`,
+    'detail_activity_create': activityId =>`/extract_activity/${activityId}/detail_activity/`,
 }
 
 export const authApi = (accessToken) => {

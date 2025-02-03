@@ -36,6 +36,14 @@ const Feature = ({navigation}) => {
                 onPress={() => navigation.navigate("Tool", { screen: "StatsFaculty" })}
             >
                 <Text style={styles.buttonText}>Xem thống kê</Text>
+
+            </TouchableOpacity>
+            <TouchableOpacity 
+                style={styles.button} 
+                onPress={() => navigation.navigate("Tool", { screen: "AddExtractActivity" })}
+            >
+                <Text style={styles.buttonText}>Đăng ký hoạt động</Text>
+                
             </TouchableOpacity>
         </View>
         );

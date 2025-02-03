@@ -18,10 +18,23 @@ import ViewPoint from './components/Student/ViewPoint.js';
 import Missing from './components/Student/Missing.js';
 import StatsFaculty from './components/Stats/StatsFaculty.js';
 import ProfileUser from './components/User/ProfileUser.js';
+import ExtractActivity from "./components/Assistant/ExtractActivity";
+import AddExtractActivity from "./components/Assistant/ExtractActivity";
+import AddDetailActivity from "./components/Assistant/AddDetailActivity";
+
 
 const Drawer = createDrawerNavigator();
 const Stack = createNativeStackNavigator();
 
+// const assistantScreen = () => {
+//     return (
+//         <Stack.Navigator initialRouteName="AddExtractActivity">
+//             <Stack.Screen name={"AddExtractActivity"} component={AddExtractActivity} options={{headerShown:false}}/>
+//             <Stack.Screen name={"AddDetailActivity"} component={AddDetailActivity} options={{title:"Thêm chi tiết hoạt động"}}/>
+//         </Stack.Navigator>
+//     )
+
+// }
 
 const HomeStack = ({ user }) => (
     <Stack.Navigator>
@@ -36,7 +49,10 @@ const Tool = () => (
         <Stack.Screen name="ListRegister" component={ListRegister}/>
         <Stack.Screen name="ViewPoint" component={ViewPoint} options={{title:"Xem điểm rèn luyện"}} />
         <Stack.Screen name="Missing" component={Missing} options={{title: "Báo thiếu hoạt động"}}/>
-                <Stack.Screen name="StatsFaculty" component={StatsFaculty} options={{title: "Xem thống kê"}} />
+        <Stack.Screen name="StatsFaculty" component={StatsFaculty} options={{title: "Xem thống kê"}} />
+        <Stack.Screen name="AddDetailActivity" component={AddDetailActivity} options={{title:"Thêm chi tiết hoạt động"}}/>
+        <Stack.Screen name="AddExtractActivity" component={AddExtractActivity} options={{headerShown:false}}/>
+        <Stack.Screen name="HomeScreen" component={HomeScreen} options={{ title: 'Home'}} />
     </Stack.Navigator>
 )
 
