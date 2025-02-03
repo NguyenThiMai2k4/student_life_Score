@@ -74,10 +74,10 @@ const HomeScreen = () => {
     return (
         <View style={MyStyle.container}>
             <ImageBackground
-                style={[Style.headerImg, { paddingTop: StatusBar.currentHeight }]}
+                style={[Style.headerImg]}
                 source={require('../../assets/extraActivity.png')}
             >
-                <StatusBar translucent backgroundColor="#872f2b" />
+                <StatusBar translucent backgroundColor="black" />
             </ImageBackground>
             <View style={Style.row}>
                 <TouchableOpacity onPress={() => search("", setCriteriaId)} >

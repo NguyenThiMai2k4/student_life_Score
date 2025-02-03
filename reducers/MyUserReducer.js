@@ -1,11 +1,16 @@
-//trang thai user dang nhap
-const MyUserReducer=(currentState, action)=>{
-    switch(action.type){
+const MyUserReducer = (currentState, action) => {
+    switch (action.type) {
         case "login":
-            return action.payload;
+            // Lưu thông tin người dùng và token
+            return {
+                ...action.payload.user,  // Thông tin người dùng
+                token: action.payload.token,  // Token
+            };
         case "logout":
-            return null;
+            return null;  // Xoá trạng thái khi logout
+        default:
+            return currentState;
     }
-    return currentState;
-}
+};
+
 export default MyUserReducer;

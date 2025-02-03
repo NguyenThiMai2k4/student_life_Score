@@ -36,7 +36,6 @@ const SignupScreen = ({route, navigation}) => {
 
     });
     const [image, setImage] = useState(null);
-
     const formatDate = (rawDate) => {
         let date = new Date(rawDate);
         let year = date.getFullYear();
@@ -53,8 +52,6 @@ const SignupScreen = ({route, navigation}) => {
         setDateOfBirth(formatDate(currentDate));
         setShowPicker(false);
     };
-
-
     const validateForm = () => {
         if (!formData.email || !formData.password || !formData.confirmPassword || !formData.avatar) {
             Alert.alert("Lỗi", "Vui lòng nhập đầy đủ thông tin");
@@ -67,7 +64,6 @@ const SignupScreen = ({route, navigation}) => {
         return true;
 
     }
-
     const register = async () => {
         if (!validateForm())
             return;
@@ -129,8 +125,6 @@ const SignupScreen = ({route, navigation}) => {
             setLoading(false); // Stop loading
         }
     }
-
-
     const togglePasswordVisibility = () => {
         setShowPassword(!showPassword);
     };

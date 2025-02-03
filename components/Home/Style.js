@@ -3,7 +3,7 @@ import { StyleSheet } from "react-native";
 export default StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: "#f7f7f7", // Màu nền nhẹ nhàng
+
     },
     row: {
         flexDirection: "row",
@@ -38,6 +38,7 @@ export default StyleSheet.create({
         fontSize: 12,
     },
     headerImg: {
+marginTop: -50,
         width: "100%",
         height: 200,
         justifyContent: "center",

@@ -6,9 +6,11 @@ export const endpoints={
     'register':'/user/register/',
     'login':'/o/token/',
     'current-user':'/user/current-user/',
-    'criteria' : '/criteria',
+    'criteria' : '/criteria/',
     'extract_activity': '/extract_activity/',
-    'detail_training_point': criteriaId => '/criteria/${criteriaId}/detail_training_point/'
+    'detail_activity_create': activityId =>`/extract_activity/${activityId}/detail_activity/`,
+    'detail_training_point': criteriaId => `/criteria/${criteriaId}/detail_training_point/`,
+    'create_extract_activity':criteriaId=>`/criteria/${criteriaId}/get_activity/`
 }
 
 export const authApi=(accessToken)=>{
