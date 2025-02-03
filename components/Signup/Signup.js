@@ -62,7 +62,6 @@ const SignupScreen = ({route, navigation}) => {
             return false;
         }
         return true;
-
     }
     const register = async () => {
         if (!validateForm())

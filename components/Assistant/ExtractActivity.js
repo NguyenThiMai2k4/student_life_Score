@@ -250,7 +250,7 @@ const AddExtractActivity = ({route, navigation}) => {
 
                         {/* Description Input */}
                         <View style={MyStyle.inputContainer}>
-                            <Text style={styles.labelForm}>Chi tiết hoạt động:</Text>
+                            <Text style={styles.labelForm}>Mô tả:</Text>
                             <TextInput
                                 style={MyStyle.input}
                                 autoCapitalize="none"
