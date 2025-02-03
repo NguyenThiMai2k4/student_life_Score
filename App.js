@@ -43,6 +43,7 @@ const Tool = () => (
 export default function App() {
     const [user, dispatch] = useReducer(MyUserReducer, null);
 
+
     return (
         <MyContext.Provider value={[user, dispatch]}>
             <NavigationContainer>

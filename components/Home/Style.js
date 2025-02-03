@@ -37,6 +37,7 @@ export default StyleSheet.create({
         fontSize: 12,
     },
     headerImg: {
+marginTop: -50,
         width: "100%",
         height: 200,
         justifyContent: "center",

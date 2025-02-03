@@ -33,7 +33,7 @@ export default StyleSheet.create({
         gap: 8,
     },
     label: {
-        fontSize: 14,
+        fontSize: 17,
         fontWeight: '500',
         color: '#4A5568',
     },

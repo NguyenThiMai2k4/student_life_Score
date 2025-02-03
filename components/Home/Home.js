@@ -77,7 +77,7 @@ const HomeScreen = () => {
                 style={[Style.headerImg, { paddingTop: StatusBar.currentHeight }]}
                 source={require('../../assets/extractActivity.png')}
             >
-                <StatusBar translucent backgroundColor="#872f2b" />
+                <StatusBar translucent backgroundColor="black" />
             </ImageBackground>
             <View style={Style.row}>
                 <TouchableOpacity onPress={() => search("", setCriteriaId)} >
