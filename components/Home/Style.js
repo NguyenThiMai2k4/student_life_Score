@@ -42,4 +42,9 @@ export default StyleSheet.create({
         justifyContent: "center",
         alignItems: "center",
     },
+    thumb:{
+        width: 40,
+        height: 40,
+        borderRadius:10,
+    }
 });

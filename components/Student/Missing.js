@@ -7,14 +7,12 @@ import Style from "./styles";
 
 const Missing = ({ route }) => {
     const detailActivityId = route.params?.detailActivityId;
-    const [evidence, setEvidence] = useState("");  // Dữ liệu minh chứng
-    const [loading, setLoading] = useState(false);  // Trạng thái loading khi gửi dữ liệu
+    const [evidence, setEvidence] = useState("");  
+    const [loading, setLoading] = useState(false); 
     const [user, dispatch] = useContext(MyContext);
     const accessToken = user?.token;
     const formData = new FormData();
     formData.append('evidence', evidence);
-
-    // Hàm gửi dữ liệu minh chứng lên API
     const submitEvidence = async () => {
         if (!accessToken) {
             Alert.alert("Lỗi", "Bạn cần đăng nhập để gửi minh chứng.");
@@ -25,27 +23,27 @@ const Missing = ({ route }) => {
             return;
         }
 
-        setLoading(true); // Bắt đầu trạng thái loading
+        setLoading(true);
         try {
             const response = await authApi(accessToken).post(
                 endpoints["missing_detail_activity"](detailActivityId),
                 formData,
                 {
                     headers: {
-                        'Content-Type': 'multipart/form-data', // Nếu cần gửi tệp, nhưng bạn gửi chuỗi thì không cần thiết
+                        'Content-Type': 'multipart/form-data', 
                     },
                 }
             );
             if (response.status === 201) {
                 Alert.alert("Thành công", "Minh chứng đã được gửi thành công!");
-                setEvidence(""); // Xóa trường nhập liệu sau khi gửi thành công
+                setEvidence(""); 
             } else {
                 Alert.alert("Lỗi", "Không thể gửi minh chứng. Vui lòng thử lại.");
             }
         } catch (error) {
             Alert.alert("Lỗi", "Không thể kết nối đến server.");
         } finally {
-            setLoading(false); // Kết thúc trạng thái loading
+            setLoading(false); 
         }
     };
 

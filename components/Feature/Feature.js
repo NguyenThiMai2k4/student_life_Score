@@ -28,6 +28,18 @@ const Feature = ({navigation}) => {
             </View>
         );
     }
+    else if(user.role == "ASSISTANT" || user.role == "ADVISOR"){
+        return(
+            <View style={styles.container}>
+            <TouchableOpacity 
+                style={styles.button} 
+                onPress={() => navigation.navigate("Tool", { screen: "StatsFaculty" })}
+            >
+                <Text style={styles.buttonText}>Xem thống kê</Text>
+            </TouchableOpacity>
+        </View>
+        );
+    }
     
     return(
         <View>

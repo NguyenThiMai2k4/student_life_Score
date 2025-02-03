@@ -50,4 +50,47 @@ export default StyleSheet.create({
         color: '#fff', // Màu chữ của nút
         fontWeight: 'bold',
     },
+    commentContainer: {
+        flexDirection: "row",
+        alignItems: "flex-start",
+        backgroundColor: "#ecf0f1",
+        padding: 10,
+        borderRadius: 10,
+        marginVertical: 5,
+    },
+    avatar: {
+        width: 40,
+        height: 40,
+        borderRadius: 20,
+        marginRight: 10,
+    },
+    commentContent: {
+        flex: 1,
+    },
+    commentUser: {
+        fontWeight: "bold",
+        color: "#2c3e50",
+    },
+    commentText: {
+        fontSize: 14,
+    },
+    commentDate: {
+        fontSize: 12,
+        color: "#95a5a6",
+    },
+    loader: {
+        flex: 1,
+        justifyContent: "center",
+        alignItems: "center",
+    },
+    submitButton:{
+        padding: 10,
+        backgroundColor: '#78B3CE', 
+        color: '#fff', 
+        fontWeight: 'bold',
+        paddingVertical: 8,
+        paddingHorizontal: 16,
+        borderRadius: 20,
+
+    }
 });

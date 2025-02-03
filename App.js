@@ -16,11 +16,13 @@ import Feature from './components/Feature/Feature.js';
 import ListRegister from './components/Student/ListRegister.js';
 import ViewPoint from './components/Student/ViewPoint.js';
 import Missing from './components/Student/Missing.js';
+import StatsFaculty from './components/Stats/StatsFaculty.js';
+import ProfileUser from './components/User/ProfileUser.js';
 
 const Drawer = createDrawerNavigator();
 const Stack = createNativeStackNavigator();
 
-// Stack Navigator cho màn hình chính
+
 const HomeStack = ({ user }) => (
     <Stack.Navigator>
         <Stack.Screen name="HomeScreen" component={HomeScreen} options={{ title: user?.email || 'Home' }} />
@@ -34,6 +36,7 @@ const Tool = () => (
         <Stack.Screen name="ListRegister" component={ListRegister}/>
         <Stack.Screen name="ViewPoint" component={ViewPoint} options={{title:"Xem điểm rèn luyện"}} />
         <Stack.Screen name="Missing" component={Missing} options={{title: "Báo thiếu hoạt động"}}/>
+                <Stack.Screen name="StatsFaculty" component={StatsFaculty} options={{title: "Xem thống kê"}} />
     </Stack.Navigator>
 )
 
@@ -61,6 +64,7 @@ export default function App() {
                         >
                             {() => <HomeStack user={user} />}
                         </Drawer.Screen>
+                        <Drawer.Screen name="ProfileUser" component={ProfileUser} options={{ title:"Hồ sơ" }}  />
                         <Drawer.Screen name="Tool" component={Tool} options={{ title:"Chức năng" }}  />
                         <Drawer.Screen name="VerifyOTP" component={VerifyOTP} />
                         <Drawer.Screen name="Logout" component={Logout} />

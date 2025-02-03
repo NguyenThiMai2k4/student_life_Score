@@ -12,8 +12,15 @@ const DetailActivity = ({ route }) => {
     const [detailActivity, setDetailActivity] = useState([]);
     const [loading, setLoading] = useState(true);
     const activityId = route.params?.activityId;
+    const [comments, setComments] = React.useState([]);
     const [user, dispatch] = useContext(MyContext)
+    const [content, setContent] = React.useState("");
     const accessToken = user?.token;
+    const formData = new FormData();
+    formData.append('content', content);
+    const [likesCount, setLikesCount] = useState(0);
+    const [liked, setLiked] = useState(false);
+
     const nav = useNavigation();
 
     const loadDetailExtractActivity = async () => {
@@ -28,8 +35,53 @@ const DetailActivity = ({ route }) => {
         }
     };
 
+    const loadComments = async () => {
+        try {
+            let res = await APIs.get(endpoints["comments"](activityId))
+            setComments(res.data);
+            console.log(res.data);
+        } catch (ex) {
+            console.error(ex);
+        }
+    }
+    const loadLikes = async () => {
+        try {
+            let res = await APIs.get(endpoints["likes"](activityId));
+            setLikesCount(res.data.likes_count);
+            const userLiked = res.data.likes.some(like => like.user.id === user.id);
+            setLiked(userLiked);
+
+        } catch (ex) {
+            console.error("Lỗi khi tải lượt thích:", ex);
+        }
+    };
+
+    const submitContent = async () => {
+        setLoading(true);
+        try {
+            console.log("token: ", accessToken);
+            const response = await authApi(accessToken).post(
+                endpoints["comments"](activityId),
+                formData,
+                {
+                    headers: {
+                        'Content-Type': 'multipart/form-data',
+                    },
+                }
+            );
+            setContent("");
+            await loadComments();
+        } catch (error) {
+            Alert.alert("Lỗi", "Không thể kết nối đến server.");
+        } finally {
+            setLoading(false);
+        }
+    };
+
     useEffect(() => {
         loadDetailExtractActivity();
+        loadComments();
+        loadLikes();
     }, [activityId]);
 
 
@@ -64,9 +116,23 @@ const DetailActivity = ({ route }) => {
 
 
     if (loading) return <ActivityIndicator size="large" color="#007aff" />;
-
-    // Lấy thông tin chung từ `extract_activity` của phần tử đầu tiên
     const extractActivity = detailActivity.length > 0 ? detailActivity[0].extract_activity : null;
+
+
+    const toggleLike = async () => {
+        if (!accessToken) {
+            Alert.alert("Lỗi", "Bạn cần đăng nhập để thích hoạt động.");
+            return;
+        }
+        try {
+            const response = await authApi(accessToken).post(endpoints["likes"](activityId));
+            if (response.status === 200) {
+                await loadLikes();
+            }
+        } catch (error) {
+            console.error("Lỗi khi thích hoạt động:", error);
+        }
+    };
 
     return (
         <ScrollView style={DetailStyle.container}>
@@ -82,6 +148,15 @@ const DetailActivity = ({ route }) => {
                         <Text style={DetailStyle.detail}>Mô tả: {extractActivity.description}</Text>
                         <Text style={DetailStyle.detail}>Ngày bắt đầu: {extractActivity.start_date}</Text>
                         <Text style={DetailStyle.detail}>Ngày kết thúc: {extractActivity.end_date}</Text>
+                        <View style={{ padding: 5, flexDirection: "row", alignItems: "center", marginVertical: 10 }}>
+                            <TouchableOpacity onPress={toggleLike}>
+                                <Image
+                                    source={liked ? require('../../assets/liked.png') : require('../../assets/like.png')}
+                                    style={{ width: 24, height: 24, marginRight: 5 }}
+                                />
+                            </TouchableOpacity>
+                            <Text>{likesCount} lượt thích</Text>
+                        </View>
                     </Card.Content>
                 </Card>
             )}
@@ -103,14 +178,48 @@ const DetailActivity = ({ route }) => {
                         </TouchableOpacity>
                         <TouchableOpacity
                             style={[DetailStyle.registerButton, { marginLeft: 10, backgroundColor: '#e74c3c' }]} // Màu nút báo thiếu
-                            onPress={() => nav.navigate("Missing", {"detailActivityId":item.id})}
+                            onPress={() => nav.navigate("Missing", { "detailActivityId": item.id })}
                         >
                             <Text style={DetailStyle.registerButtonText}>Báo thiếu</Text>
                         </TouchableOpacity>
                     </Card.Content>
                 </Card>
             ))}
+            <Text style={DetailStyle.sectionTitle}>Bình luận:</Text>
+            <Card style={DetailStyle.card}>
+                <Card.Content style={{ flexDirection: "row", alignItems: "center" }}>
+                    <TextInput
+                        style={[DetailStyle.input, { flex: 1, marginRight: 10 }]}
+                        value={content}
+                        onChangeText={setContent}
+                        placeholder="Nhập bình luận"
+                        multiline
+                        numberOfLines={4}
+                    />
+                    <TouchableOpacity
+                        style={DetailStyle.submitButton}
+                        onPress={submitContent}
+                        disabled={loading}
+                    >
+                        <Text style={DetailStyle.submitButton}>
+                            {loading ? "..." : "Gửi"}
+                        </Text>
+                    </TouchableOpacity>
+                </Card.Content>
+            </Card>
+
+            {comments.length === 0 ? <ActivityIndicator /> : comments.map(c => (
+                <View style={DetailStyle.commentContainer} key={c.id}>
+                    <Image source={{ uri: c.user.avatar }} style={DetailStyle.avatar} />
+                    <View style={DetailStyle.commentContent}>
+                        <Text style={DetailStyle.commentUser}>{c.user.email}</Text>
+                        <Text style={DetailStyle.commentText}>{c.content}</Text>
+                        <Text style={DetailStyle.commentDate}>{c.created_date}</Text>
+                    </View>
+                </View>
+            ))}
         </ScrollView>
+
     );
 };
 
