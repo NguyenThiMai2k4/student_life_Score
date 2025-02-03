@@ -55,7 +55,7 @@ const Tool = () => (
     </Stack.Navigator>
 )
 
-}
+
 export default function App() {
     const [user, dispatch] = useReducer(MyUserReducer, null);
 
