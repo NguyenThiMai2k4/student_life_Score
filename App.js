@@ -27,6 +27,7 @@ import StudentList from './components/StudentList/StudentList.js';
 import StudentDetail from './components/StudentList/StudentDetail.js';
 import MissingStudent from './components/StudentList/MissingStudent.js';
 import ViewPointStudent from './components/StudentList/ViewPointStudent.js';
+import ManagerUser from "./components/Advisor/ManagerUser";
 
 
 const Drawer = createDrawerNavigator();
@@ -36,6 +37,7 @@ const HomeStack = ({ user }) => (
     <Stack.Navigator>
         <Stack.Screen name="HomeScreen" component={HomeScreen} options={{ title: user?.email || 'Home' }} />
         <Stack.Screen name="DetailActivity" component={DetailActivity} options={{ title: "Chi tiết hoạt động" }} />
+        <Stack.Screen name="AddDetailActivity" component={AddDetailActivity} options={{title:"Thêm chi tiết hoạt động"}}/>
         <Stack.Screen name="Missing" component={Missing} options={{title: "Báo thiếu hoạt động"}}/>
     </Stack.Navigator>
 );
@@ -56,6 +58,7 @@ const Tool = () => (
         <Stack.Screen name="StudentDetail" component={StudentDetail} options={{ tittle: 'Hồ sơ sinh viên' }} />
         <Stack.Screen name="MissingStudent" component={MissingStudent} options={{ tittle: 'Danh sách báo thiếu sinh viên' }} />
         <Stack.Screen name="ViewPointStudent" component={ViewPointStudent} options={{ tittle: 'Thành tích sinh viên' }} />
+        <Stack.Screen name={"ManagerUser"} component={ManagerUser} options={{title:"Quản lý User"}}/>
     </Stack.Navigator>
 )
 

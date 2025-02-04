@@ -17,7 +17,13 @@ export default StyleSheet.create({
     title: {
         fontSize: 22,
         fontWeight: "bold",
-        color: "#213555",
+        color: "white",
+        marginBottom: 5,
+    },
+    title11: {
+        fontSize: 22,
+        fontWeight: "bold",
+        color: "black",
         marginBottom: 5,
     },
     description: {
@@ -171,9 +177,7 @@ export default StyleSheet.create({
     cardContent: {
         flex: 1,
     },
-    deleteButton: {
-        padding: 8,
-    },
+
 
 
 

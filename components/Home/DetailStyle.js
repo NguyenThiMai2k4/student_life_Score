@@ -92,5 +92,18 @@ export default StyleSheet.create({
         paddingHorizontal: 16,
         borderRadius: 20,
 
-    }
+    },
+    deleteButton: {
+        backgroundColor: '#588eba',
+        justifyContent: 'center',
+        alignItems: 'center',
+        width: 70,
+        height: '100%',
+        borderRadius:7,
+    },
+    deleteIcon: {
+        width: 30,
+        height: 30,
+        tintColor: 'white',
+    },
 });

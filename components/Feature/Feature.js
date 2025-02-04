@@ -1,73 +1,50 @@
-import MyStyle from "../../styles/MyStyle";
-import {Button, Alert, View, RefreshControl, StatusBar, ScrollView, ImageBackground, Text, Image, TextInput, TouchableOpacity, SafeAreaView, StyleSheet, Pressable, ActivityIndicator, FlatList } from 'react-native';
-import React, { useState,useContext, useEffect } from "react";
-import APIs, { authApi, endpoints } from "../../configs/API";
-import { Card } from "react-native-paper";
+import React, { useContext } from "react";
+import { View, Text, TouchableOpacity } from "react-native";
+import styles from "./styles";
 import MyContext from "../../configs/MyContext";
-import ListRegister from "../Student/ListRegister";
-import styles from "./styles"
 
-const Feature = ({navigation}) => {
-    const [user, dispatch]= useContext(MyContext);
-    if(user.role == "STUDENT"){
-        return (
-            <View style={styles.container}>
-                <TouchableOpacity 
-                    style={styles.button} 
-                    onPress={() => navigation.navigate("Tool", { screen: "ListRegister" })}
+const Feature = ({ navigation }) => {
+    const [user] = useContext(MyContext);
+
+    const roleButtons = {
+        STUDENT: [
+            { screen: "ListRegister", label: "Xem hoạt động đã đăng ký" },
+            { screen: "ViewPoint", label: "Xem điểm rèn luyện" },
+        ],
+        ASSISTANT: [
+            { screen: "StatsFaculty", label: "Xem thống kê" },
+            { screen: "AddExtractActivity", label: "Đăng ký hoạt động" },
+            { screen: "StudentList", label: "Danh sách sinh viên" },
+            { screen: "FacultyList", label: "Danh sách báo thiếu ĐRL" },
+        ],
+        ADVISOR: [
+            { screen: "StatsFaculty", label: "Xem thống kê" },
+            { screen: "AddExtractActivity", label: "Đăng ký hoạt động" },
+            { screen: "ManagerUser", label: "Quản lý User" },
+            { screen: "StudentList", label: "Danh sách sinh viên" },
+            { screen: "FacultyList", label: "Danh sách báo thiếu ĐRL" },
+        ],
+    };
+
+    const renderButtons = (buttons) => (
+        <View style={styles.container}>
+            {buttons.map(({ screen, label }) => (
+                <TouchableOpacity
+                    key={screen}
+                    style={styles.button}
+                    onPress={() => navigation.navigate("Tool", { screen })}
                 >
-                    <Text style={styles.buttonText}>Xem hoạt động đã đăng ký</Text>
+                    <Text style={styles.buttonText}>{label}</Text>
                 </TouchableOpacity>
-
-                <TouchableOpacity 
-                    style={styles.button} 
-                    onPress={() => navigation.navigate("Tool", { screen: "ViewPoint" })}
-                >
-                    <Text style={styles.buttonText}>Xem điểm rèn luyện</Text>
-                </TouchableOpacity>
-            </View>
-        );
-    }
-    else if(user.role == "ASSISTANT" || user.role == "ADVISOR"){
-        return(
-            <View style={styles.container}>
-            <TouchableOpacity 
-                style={styles.button} 
-                onPress={() => navigation.navigate("Tool", { screen: "StatsFaculty" })}
-            >
-                <Text style={styles.buttonText}>Xem thống kê</Text>
-
-            </TouchableOpacity>
-            <TouchableOpacity 
-                style={styles.button} 
-                onPress={() => navigation.navigate("Tool", { screen: "StudentList" })}
-            >
-                <Text style={styles.buttonText}>Danh sách sinh viên</Text>
-
-            </TouchableOpacity>
-            <TouchableOpacity 
-                style={styles.button} 
-                onPress={() => navigation.navigate("Tool", { screen: "AddExtractActivity" })}
-            >
-                <Text style={styles.buttonText}>Đăng ký hoạt động</Text>
-                
-            </TouchableOpacity>
-            <TouchableOpacity 
-                style={styles.button} 
-                onPress={() => navigation.navigate("Tool", { screen: "FacultyList" })}
-            >
-                <Text style={styles.buttonText}>Danh sách báo thiếu ĐRL</Text>
-                
-            </TouchableOpacity>
+            ))}
         </View>
-        );
-    }
-    
-    return(
+    );
+
+    return roleButtons[user.role] ? renderButtons(roleButtons[user.role]) : (
         <View>
-            <Text>Hello </Text>
+            <Text>Hello</Text>
         </View>
-    )
-}
+    );
+};
 
-export default Feature
+export default Feature;

@@ -1,5 +1,21 @@
 import MyStyle from "../../styles/MyStyle";
-import { Alert, View, RefreshControl, StatusBar, ScrollView, ImageBackground, Text, Image, TextInput, TouchableOpacity, SafeAreaView, StyleSheet, Pressable, ActivityIndicator, FlatList } from 'react-native';
+import {
+    Alert,
+    View,
+    RefreshControl,
+    StatusBar,
+    ScrollView,
+    ImageBackground,
+    Text,
+    Image,
+    TextInput,
+    TouchableOpacity,
+    SafeAreaView,
+    StyleSheet,
+    Pressable,
+    ActivityIndicator,
+    FlatList
+} from 'react-native';
 import Style from "./Style.js";
 import DetailStyle from "./DetailStyle.js"
 import React, { useState, useContext, useEffect } from "react";
@@ -7,6 +23,10 @@ import APIs, { authApi, endpoints } from "../../configs/API";
 import { Card } from "react-native-paper";
 import MyContext from "../../configs/MyContext";
 import { useNavigation } from "@react-navigation/native";
+import addDetailActivity from "../Assistant/AddDetailActivity";
+import { Swipeable } from 'react-native-gesture-handler';
+import AntDesign from "react-native-vector-icons/AntDesign";
+import styles from "../Assistant/styles";
 
 const DetailActivity = ({ route }) => {
     const [detailActivity, setDetailActivity] = useState([]);
@@ -20,9 +40,56 @@ const DetailActivity = ({ route }) => {
     formData.append('content', content);
     const [likesCount, setLikesCount] = useState(0);
     const [liked, setLiked] = useState(false);
-
     const nav = useNavigation();
 
+
+    const handleDelete = async (detailActivityId) => {
+        Alert.alert(
+            "Xác nhận xóa",
+            "Bạn có chắc chắn muốn xóa hoạt động này?",
+            [
+                {
+                    text: "Hủy",
+                    style: "cancel"
+                },
+                {
+                    text: "Xóa",
+                    onPress: async () => {
+                        try {
+                            await authApi(accessToken).delete(
+                                endpoints['detail_activity_delete'](detailActivityId),
+                                {
+                                    headers: {
+                                        "Content-Type": 'application/json',
+                                    }
+                                }
+                            );
+
+                            setDetailActivity(currentDetailActivities =>
+                                currentDetailActivities.filter(detailActivity => detailActivity.id !== detailActivityId)
+                            );
+
+                            Alert.alert("Thông báo", "Đã xóa chi tiết hoạt động thành công");
+                        } catch (error) {
+                            console.error("Error deleting activity:", error);
+                            Alert.alert("Lỗi", "Không thể xóa chi tiết hoạt động. Vui lòng thử lại.");
+                        }
+                    },
+                    style: "destructive"
+                }
+            ]
+        );
+    };
+    const renderRightActions = (progress, dragX, item) => {
+        return (
+            <TouchableOpacity
+                style={DetailStyle.deleteButton}
+                onPress={() => handleDelete(item.id)}
+            >
+                <AntDesign name={'delete'} size={24} color={'red'} />
+            </TouchableOpacity>
+        );
+    };
     const loadDetailExtractActivity = async () => {
         try {
             setLoading(true);
@@ -34,6 +101,14 @@ const DetailActivity = ({ route }) => {
             setLoading(false);
         }
     };
+    // trả về đối tượng truyền vào khi có id
+    // const extractActivity = detailActivity.length > 0 ? detailActivity[0].extract_activity : null;
+    const [extractActivity, setExtractActivity] = React.useState({});
+    const loadExtractActivity = async () => {
+        let res = await APIs.get(`${endpoints["extract_activity"]}/${activityId}`);
+        setExtractActivity(res.data);
+        console.log(res.data);
+    }
 
     const loadComments = async () => {
         try {
@@ -79,6 +154,7 @@ const DetailActivity = ({ route }) => {
     };
 
     useEffect(() => {
+        loadExtractActivity();
         loadDetailExtractActivity();
         loadComments();
         loadLikes();
@@ -104,9 +180,9 @@ const DetailActivity = ({ route }) => {
             }
         } catch (error) {
             if (error.response) {
-                // Lấy thông báo lỗi chi tiết từ response của API
+
                 const errorMessage = error.response?.data?.error || "Đăng ký thất bại.";
-                Alert.alert("Lỗi", errorMessage);  // Hiển thị thông báo lỗi từ server
+                Alert.alert("Lỗi", errorMessage);
             } else {
                 Alert.alert("Lỗi", "Không thể kết nối đến server.");
             }
@@ -114,10 +190,7 @@ const DetailActivity = ({ route }) => {
     };
 
 
-
     if (loading) return <ActivityIndicator size="large" color="#007aff" />;
-    const extractActivity = detailActivity.length > 0 ? detailActivity[0].extract_activity : null;
-
 
     const toggleLike = async () => {
         if (!accessToken) {
@@ -143,11 +216,22 @@ const DetailActivity = ({ route }) => {
             {extractActivity && (
                 <Card style={DetailStyle.card}>
                     <Card.Content>
-                        <Text style={DetailStyle.title}>Tên hoạt động: {extractActivity.name}</Text>
-                        <Text style={DetailStyle.detail}>Điều: {extractActivity.criteria.name}</Text>
-                        <Text style={DetailStyle.detail}>Mô tả: {extractActivity.description}</Text>
-                        <Text style={DetailStyle.detail}>Ngày bắt đầu: {extractActivity.start_date}</Text>
-                        <Text style={DetailStyle.detail}>Ngày kết thúc: {extractActivity.end_date}</Text>
+                        <Text style={DetailStyle.title}>
+                            Tên hoạt động: {extractActivity?.name || "Không có dữ liệu"}
+                        </Text>
+                        <Text style={DetailStyle.detail}>
+                            Điều: {extractActivity?.criteria?.name || "Không có dữ liệu"}
+                        </Text>
+                        <Text style={DetailStyle.detail}>
+                            Mô tả: {extractActivity?.description || "Không có mô tả"}
+                        </Text>
+                        <Text style={DetailStyle.detail}>
+                            Ngày bắt đầu: {extractActivity?.start_date || "Không có mô tả"}
+                        </Text>
+                        <Text style={DetailStyle.detail}>
+                            Ngày kết thúc: {extractActivity?.end_date || "Không có mô tả"}
+                        </Text>
+
                         <View style={{ padding: 5, flexDirection: "row", alignItems: "center", marginVertical: 10 }}>
                             <TouchableOpacity onPress={toggleLike}>
                                 <Image
@@ -164,21 +248,53 @@ const DetailActivity = ({ route }) => {
             <Text style={DetailStyle.sectionTitle}>Chi tiết:</Text>
 
             {detailActivity.map((item) => (
-                <Card key={item.id} style={DetailStyle.card}>
-                    <Card.Content style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
-                        <View style={{ flex: 1 }}>
-                            <Text style={DetailStyle.detail}>Tên: {item.name}</Text>
-                            <Text style={DetailStyle.detail}>Điểm: {item.point}</Text>
-                        </View>
-                        <TouchableOpacity
-                            style={DetailStyle.registerButton}
-                            onPress={() => registerActivity(item.id)}
-                        >
-                            <Text style={DetailStyle.registerButtonText}>Đăng ký</Text>
-                        </TouchableOpacity>
-                    </Card.Content>
-                </Card>
+                <Swipeable
+                    key={item.id}
+                    renderRightActions={
+                        (user.role === "ASSISTANT" || user.role === "ADVISOR")
+                            ? (progress, dragX) => renderRightActions(progress, dragX, item)
+                            : null
+                    }
+                >
+                    <Card style={DetailStyle.card}>
+                        <Card.Content
+                            style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
+                            <View style={{ flex: 1 }}>
+                                <Text style={DetailStyle.detail}>Tên: {item.name}</Text>
+                                <Text style={DetailStyle.detail}>Điểm: {item.point}</Text>
+                            </View>
+                            <TouchableOpacity
+                                style={DetailStyle.registerButton}
+                                onPress={() => registerActivity(item.id)}
+                            >
+                                <Text style={DetailStyle.registerButtonText}>Đăng ký</Text>
+                            </TouchableOpacity>
+                        </Card.Content>
+                    </Card>
+                </Swipeable>
             ))}
+
+
+            {user.role === "ASSISTANT" || user.role === "ADVISOR" ? (
+                <TouchableOpacity
+                    onPress={() => nav.navigate("AddDetailActivity", {
+                        activityId: activityId,
+                        activityData: {
+                            name: extractActivity.name,
+                            criteria: extractActivity.criteria.name,
+                            description: extractActivity.description,
+                            startDate: extractActivity.start_date,
+                            endDate: extractActivity.end_date,
+                        }
+                    })}
+                >
+                    <Card style={styles.addCard}>
+                        <Card.Content style={styles.addCardContent}>
+                            <AntDesign name='plus' size={24} color="#666" />
+                        </Card.Content>
+                    </Card>
+                </TouchableOpacity>) : null}
+
             <Text style={DetailStyle.sectionTitle}>Bình luận:</Text>
             <Card style={DetailStyle.card}>
                 <Card.Content style={{ flexDirection: "row", alignItems: "center" }}>
@@ -202,19 +318,22 @@ const DetailActivity = ({ route }) => {
                 </Card.Content>
             </Card>
 
-            {comments.length === 0 ? <ActivityIndicator /> : comments.map(c => (
-                <View style={DetailStyle.commentContainer} key={c.id}>
-                    <Image source={{ uri: c.user.avatar }} style={DetailStyle.avatar} />
-                    <View style={DetailStyle.commentContent}>
-                        <Text style={DetailStyle.commentUser}>{c.user.email}</Text>
-                        <Text style={DetailStyle.commentText}>{c.content}</Text>
-                        <Text style={DetailStyle.commentDate}>{c.created_date}</Text>
+            {
+                comments.length === 0 ? <ActivityIndicator /> : comments.map(c => (
+                    <View style={DetailStyle.commentContainer} key={c.id}>
+                        <Image source={{ uri: c.user.avatar }} style={DetailStyle.avatar} />
+                        <View style={DetailStyle.commentContent}>
+                            <Text style={DetailStyle.commentUser}>{c.user.email}</Text>
+                            <Text style={DetailStyle.commentText}>{c.content}</Text>
+                            <Text style={DetailStyle.commentDate}>{c.created_date}</Text>
+                        </View>
                     </View>
-                </View>
-            ))}
+                ))
+            }
         </ScrollView>
 
-    );
+    )
+        ;
 };
 
 export default DetailActivity;
