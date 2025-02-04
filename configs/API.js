@@ -6,6 +6,7 @@ export const endpoints = {
     'list_missing': (studentId)=>`student/${studentId}/get_list_missing/`,
     'register': '/user/register/',
     'login': '/o/token/',
+    'user':'/user/',
     'current-user': '/user/current-user/',
     'criteria': '/criteria',
     'extract_activity': '/extract_activity/',
@@ -26,6 +27,10 @@ export const endpoints = {
     'get_list_missing' : (facultyId) => `faculty/${facultyId}/get_list_missing/`,
     'confirm_register_detail_activity': (registerId) =>`register_extract_activity/${registerId}/confirm_register_detail_activity/`,
     'cancel_register_detail_activity': (registerId) =>`register_extract_activity/${registerId}/cancel_register_detail_activity/`,
+    'activity_delete': activityId =>`/extract_activity/${activityId}/`,
+    'detail_activity_delete': detailActivityId =>`/detail_extract_activity/${detailActivityId}/`,
+    'patch_role':  (userId) => `/user/${userId}/update/`,
+
 }
 
 export const authApi = (accessToken) => {

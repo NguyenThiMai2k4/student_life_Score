@@ -1,10 +1,27 @@
 import MyStyle from "../../styles/MyStyle"
-import { View, RefreshControl, StatusBar, ScrollView, ImageBackground, Text, Image, TextInput, TouchableOpacity, SafeAreaView, StyleSheet, Pressable, ActivityIndicator, FlatList } from 'react-native';
+import {
+    View,
+    RefreshControl,
+    StatusBar,
+    ScrollView,
+    ImageBackground,
+    Text,
+    Image,
+    TextInput,
+    TouchableOpacity,
+    SafeAreaView,
+    StyleSheet,
+    Pressable,
+    ActivityIndicator,
+    FlatList, Alert
+} from 'react-native';
 import Style from "./Style.js";
-import React from 'react'
-import APIs, { endpoints } from "../../configs/API";
-import { Chip, Searchbar, List } from 'react-native-paper';
-import { useNavigation } from "@react-navigation/native";
+import React, {useContext, useState} from 'react'
+import APIs, {authApi, endpoints} from "../../configs/API";
+import {Chip, Searchbar, List} from 'react-native-paper';
+import {useNavigation} from "@react-navigation/native";
+import AntDesign from "react-native-vector-icons/AntDesign";
+import MyContext from "../../configs/MyContext";
 
 const HomeScreen = () => {
     const [extract_activity, setExtractActivity] = React.useState([]);
@@ -16,6 +33,50 @@ const HomeScreen = () => {
     const nav = useNavigation();
     const [index, setIndex] = React.useState(0);
 
+
+    const [user, dispatch] = useContext(MyContext)
+    const accessToken = user?.token;
+    // const [loading, setLoading] = useState(false);
+    const handleDelete = async (activityId) => {
+        Alert.alert(
+            "Xác nhận xóa",
+            "Bạn có chắc chắn muốn xóa hoạt động này?",
+            [
+                {
+                    text: "Hủy",
+                    style: "cancel"
+                },
+                {
+                    text: "Xóa",
+                    onPress: async () => {
+                        try {
+                            // Perform the delete operation
+                            await authApi(accessToken).delete(
+                                endpoints['activity_delete'](activityId),
+                                {
+                                    headers: {
+                                        "Content-Type": 'application/json',
+                                    }
+                                }
+                            );
+
+                            // Remove the deleted activity from the local state
+                            setExtractActivity(currentActivities =>
+                                currentActivities.filter(activity => activity.id !== activityId)
+                            );
+
+                            // Optionally show a success message
+                            Alert.alert("Thông báo", "Đã xóa hoạt động thành công");
+                        } catch (error) {
+                            console.error("Error deleting activity:", error);
+                            Alert.alert("Lỗi", "Không thể xóa hoạt động. Vui lòng thử lại.");
+                        }
+                    },
+                    style: "destructive"
+                }
+            ]
+        );
+    };
     const loadExtractActivity = async () => {
         if (page > 0) {
             setLoading(true)
@@ -74,40 +135,53 @@ const HomeScreen = () => {
     return (
         <View style={Style.container}>
             <ImageBackground
-                style={[Style.headerImg, { paddingTop: StatusBar.currentHeight }]}
+                style={[Style.headerImg, {paddingTop: StatusBar.currentHeight}]}
                 source={require('../../assets/extractActivity.png')}
             >
-                <StatusBar translucent backgroundColor="black" />
+                <StatusBar translucent backgroundColor="black"/>
             </ImageBackground>
             <View style={Style.row}>
-                <TouchableOpacity onPress={() => search("", setCriteriaId)} >
-                    <Chip style={Style.margin} icon="label" >Tất cả</Chip>
+                <TouchableOpacity onPress={() => search("", setCriteriaId)}>
+                    <Chip style={Style.margin} icon="label">Tất cả</Chip>
 
                 </TouchableOpacity>
                 {criteria.map(c =>
                     <TouchableOpacity key={c.name} onPress={() => search(c.name, setCriteriaId)}>
-                        <Chip style={Style.margin} icon="label" >Điều {c.name}</Chip>
+                        <Chip style={Style.margin} icon="label">Điều {c.name}</Chip>
                     </TouchableOpacity>)}
             </View>
-            <Searchbar placeholder="Tìm hoạt động..." value={q} onChangeText={t => search(t, setQ)} />
-            {loading && <ActivityIndicator />}
+            <Searchbar placeholder="Tìm hoạt động..." value={q} onChangeText={t => search(t, setQ)}/>
+            {loading && <ActivityIndicator/>}
 
-            <FlatList onEndReached={loadMore} data={extract_activity} renderItem={({ item }) =>
+            <FlatList onEndReached={loadMore} data={extract_activity} renderItem={({item}) =>
                 <List.Item title={item.name} key={item.id}
-                    description={
-                        <View>
-                            <Text>Ngày bắt đầu: {item.start_date}</Text>
-                            <Text>Ngày kết thúc: {item.end_date}</Text>
-                        </View>
-                    }
-                    left={props => <List.Icon {...props} icon="folder" />}
-                    right={props => (
-                        <TouchableOpacity style={Style.detailButton} onPress={() => nav.navigate("DetailActivity", { "activityId": item.id })}>
-                            <Text style={Style.detailButtonText}>Xem chi tiết</Text>
-                        </TouchableOpacity>
-                    )}
+                           description={
+                               <View>
+                                   <Text>Ngày bắt đầu: {item.start_date}</Text>
+                                   <Text>Ngày kết thúc: {item.end_date}</Text>
+                               </View>
+                           }
+                           left={props => <List.Icon {...props} icon="folder"/>}
+                           right={props => (
+                               <View style={{flexDirection: 'row', alignItems: 'center'}}>
+                                   <TouchableOpacity
+                                       style={Style.detailButton}
+                                       onPress={() => nav.navigate("DetailActivity", {"activityId": item.id})}
+                                   >
+                                       <Text style={Style.detailButtonText}>Xem chi tiết</Text>
+                                   </TouchableOpacity>
+                                   {user.role === "ASSISTANT" || user.role === "ADVISOR" ? (
+                                       <TouchableOpacity
+                                           onPress={() => handleDelete(item.id)}
+                                           style={[MyStyle.iconDelete, {marginLeft: 10}]}
+                                       >
+                                           <AntDesign name="delete" size={16} color="red"/>
+                                       </TouchableOpacity>
+                                   ) : null}
+                               </View>
+                           )}
                 />
-            } />
+            }/>
         </View>
     )
 }

@@ -127,19 +127,19 @@ const AddDetailActivity = ({route, navigation}) => {
         <ScrollView style={styles.container}>
             <ImageBackground
                 style={[styles.headerImg]}
-                source={require('../../assets/titleAddActivity.jpg')}
+                source={require('../../assets/extractActivity.png')}
             />
-            {/*{extractActivity && (*/}
+           
             <Card style={styles.card}>
                 <Card.Content>
-                    <Text style={styles.title}>Tên hoạt động: {activityData?.name}</Text>
+                    <Text style={styles.description}>Tên hoạt động: {activityData?.name}</Text>
                     <Text style={styles.detail}>Điều: {activityData?.criteria}</Text>
                     <Text style={styles.detail}>Mô tả: {activityData?.description} </Text>
                     <Text style={styles.detail}>Ngày bắt đầu: {activityData?.startDate}</Text>
                     <Text style={styles.detail}>Ngày kết thúc: {activityData?.endDate}</Text>
                 </Card.Content>
             </Card>
-            {/*)}*/}
+          
 
             <Text style={styles.sectionTitle}>Thêm chi tiết hoạt động:</Text>
 
@@ -148,12 +148,12 @@ const AddDetailActivity = ({route, navigation}) => {
                     <Card.Content>
                         <View style={styles.cardHeader}>
                             <View style={styles.cardContent}>
-                                <Text style={styles.title}>Tên: {detail.title}</Text>
+                                <Text style={styles.description}>Tên: {detail.title}</Text>
                                 <Text style={styles.description}>Điểm: {detail.description}</Text>
                             </View>
                             <TouchableOpacity
                                 onPress={() => handleDelete(index)}
-                                style={styles.deleteButton}
+                                style={MyStyle.iconDelete}
                             >
                                 <AntDesign name="delete" size={24} color="red" />
                             </TouchableOpacity>
@@ -162,7 +162,7 @@ const AddDetailActivity = ({route, navigation}) => {
                 </Card>
             ))}
 
-            {/* Card dấu cộng */}
+ 
             <TouchableOpacity onPress={() => setModalVisible(true)}>
                 <Card style={styles.addCard}>
                     <Card.Content style={styles.addCardContent}>
@@ -171,7 +171,7 @@ const AddDetailActivity = ({route, navigation}) => {
                 </Card>
             </TouchableOpacity>
 
-            {/* Modal nhập thông tin */}
+
             <Modal
                 animationType="slide"
                 transparent={true}

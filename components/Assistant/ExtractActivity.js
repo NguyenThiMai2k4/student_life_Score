@@ -39,7 +39,7 @@ const AddExtractActivity = ({route, navigation}) => {
         criteria: null,
     });
     const [criteria, setCriteria] = React.useState([]);
-    // Dropdown state
+
     const [openCriteria, setOpenCriteria] = useState(false);
     const [criteriaValue, setCriteriaValue] = useState(null);
     const [activityCurrentId, setActivityCurrentId] = React.useState("")
@@ -49,8 +49,7 @@ const AddExtractActivity = ({route, navigation}) => {
             label: `Điều ${item.name}`,
             value: item.name,
             semester: item.semester
-            // Assuming the API returns an item with a 'name' property
-            // Assuming the API returns an item with a 'code' property
+
         }));
         setCriteria(formattedCriteria);
         console.info("Dieu:" + JSON.stringify(criteria));
@@ -93,15 +92,12 @@ const AddExtractActivity = ({route, navigation}) => {
                 form, {
                     headers: {
                         "Content-Type": 'multipart/form-data',
-                        // "Authorization": `bearer ${accessToken}`
-
                     }
                 });
-
             console.info(res.data.id);
             Alert.alert("Thành công", "Đăng ký thành công!");
             navigation.navigate("AddDetailActivity", {
-                activityId: res.data.id, // Pass the ID
+                activityId: res.data.id, 
                 activityData: {
                     name: formData.name,
                     criteria: formData.criteria,
@@ -114,7 +110,7 @@ const AddExtractActivity = ({route, navigation}) => {
 
 
         } catch (ex) {
-            // Xử lý các trường hợp lỗi
+
             console.error("Lỗi khi gửi API:", ex);
             console.info("API URL:", formData.criteria);
             if (ex.response) {
@@ -128,7 +124,7 @@ const AddExtractActivity = ({route, navigation}) => {
                 Alert.alert("Lỗi", ex.message || "Đã xảy ra lỗi không xác định.");
             }
         } finally {
-            setLoading(false); // Stop loading
+            setLoading(false); 
         }
     }
 
@@ -162,7 +158,7 @@ const AddExtractActivity = ({route, navigation}) => {
         hideDatePicker();
     };
 
-    // Validate dates when either is changed
+    
     useEffect(() => {
         if (formData.startDate && formData.endDate && formData.endDate < formData.startDate) {
             Alert.alert(
@@ -182,11 +178,11 @@ const AddExtractActivity = ({route, navigation}) => {
             <SafeAreaView style={styles.container}>
                 <View style={MyStyle.content}>
                     <View style={MyStyle.header}>
-                        <Text style={MyStyle.title}>THÊM HOẠT ĐỘNG NGOẠI KHÓA</Text>
+                        <Text style={styles.title}>THÊM HOẠT ĐỘNG NGOẠI KHÓA</Text>
                     </View>
 
                     <View style={MyStyle.form}>
-                        {/* Name Input */}
+                      
                         <View style={MyStyle.inputContainer}>
                             <Text style={styles.labelForm}>Tên hoạt động:</Text>
                             <TextInput
@@ -197,7 +193,7 @@ const AddExtractActivity = ({route, navigation}) => {
                             />
                         </View>
 
-                        {/* Start Date */}
+                       
                         <View style={MyStyle.inputContainer}>
                             <Text style={styles.labelForm}>Ngày bắt đầu:</Text>
                             <TouchableOpacity
@@ -216,7 +212,7 @@ const AddExtractActivity = ({route, navigation}) => {
                             </TouchableOpacity>
                         </View>
 
-                        {/* End Date */}
+                 
                         <View style={MyStyle.inputContainer}>
                             <Text style={styles.labelForm}>Ngày kết thúc:</Text>
                             <TouchableOpacity
@@ -235,7 +231,7 @@ const AddExtractActivity = ({route, navigation}) => {
                             </TouchableOpacity>
                         </View>
 
-                        {/* Shared DatePicker Modal */}
+                    
                         <DateTimePickerModal
                             isVisible={datePickerConfig.isVisible}
                             mode="date"
@@ -248,7 +244,7 @@ const AddExtractActivity = ({route, navigation}) => {
                             minimumDate={new Date(1950, 0, 1)}
                         />
 
-                        {/* Description Input */}
+                      
                         <View style={MyStyle.inputContainer}>
                             <Text style={styles.labelForm}>Mô tả:</Text>
                             <TextInput
@@ -259,7 +255,7 @@ const AddExtractActivity = ({route, navigation}) => {
                             />
                         </View>
 
-                        {/* Criteria Dropdown */}
+                   
                         <View style={[MyStyle.inputContainer, {zIndex: 1000}]}>
                             <Text style={styles.labelForm}>Loại hoạt động:</Text>
                             <DropDownPicker
@@ -284,7 +280,7 @@ const AddExtractActivity = ({route, navigation}) => {
                             />
                         </View>
 
-                        {/* Save Button */}
+                     
                         <TouchableOpacity
                             style={MyStyle.Button}
                             onPress={createExtractActivity}
