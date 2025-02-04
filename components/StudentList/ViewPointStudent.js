@@ -1,14 +1,16 @@
 import React, { useState, useContext, useEffect } from "react";
-import { Alert, View, Text, ScrollView, ActivityIndicator } from 'react-native';
-import { Card } from 'react-native-paper'; // Dùng Card để hiển thị đẹp hơn
+import { FlatList, View, Text, TouchableOpacity,ScrollView, ActivityIndicator } from 'react-native';
+import { List, Searchbar } from 'react-native-paper';
 import MyContext from "../../configs/MyContext";
-import { authApi, endpoints } from "../../configs/API";
-import ViewPointStyles from "./ViewPointStyles"; // Import styles mới
+import APIs, {authApi, endpoints } from "../../configs/API";
+import { useNavigation } from "@react-navigation/native";
+import ViewPointStyles from "./ViewPointStudentStyle";
+import { Card } from 'react-native-paper'; 
 
-const ViewPoint = () => {
+const ViewPointStudent = ({route}) => {
     const [user] = useContext(MyContext);
     const accessToken = user?.token;
-    const studentId = user?.student?.id;
+    const studentId = route.params?.studentId;
     const [listPoint, setListPoint] = useState([]);
     const [loading, setLoading] = useState(true);
     const [info, setInfo] = useState(null);
@@ -21,7 +23,7 @@ const ViewPoint = () => {
             setInfo(res.data);
             console.log(res.data);
         } catch (error) {
-            Alert.alert("Lỗi", error.response?.data?.error || "Đăng ký thất bại.");
+            Alert.alert("Lỗi", error.response?.data?.error || "Tải thất bại.");
         } finally {
             setLoading(false);
         }
@@ -41,7 +43,7 @@ const ViewPoint = () => {
 
     return (
         <View style={ViewPointStyles.container}>
-            <Text style={ViewPointStyles.header}>📊 Điểm rèn luyện của bạn</Text>
+            <Text style={ViewPointStyles.header}>📊 Thành tích sinh viên </Text>
 
             {loading ? (
                 <ActivityIndicator size="large" color="#007bff" />
@@ -80,4 +82,4 @@ const ViewPoint = () => {
     );
 };
 
-export default ViewPoint;
+export default ViewPointStudent;

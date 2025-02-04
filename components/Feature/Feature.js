@@ -40,9 +40,23 @@ const Feature = ({navigation}) => {
             </TouchableOpacity>
             <TouchableOpacity 
                 style={styles.button} 
+                onPress={() => navigation.navigate("Tool", { screen: "StudentList" })}
+            >
+                <Text style={styles.buttonText}>Danh sách sinh viên</Text>
+
+            </TouchableOpacity>
+            <TouchableOpacity 
+                style={styles.button} 
                 onPress={() => navigation.navigate("Tool", { screen: "AddExtractActivity" })}
             >
                 <Text style={styles.buttonText}>Đăng ký hoạt động</Text>
+                
+            </TouchableOpacity>
+            <TouchableOpacity 
+                style={styles.button} 
+                onPress={() => navigation.navigate("Tool", { screen: "FacultyList" })}
+            >
+                <Text style={styles.buttonText}>Danh sách báo thiếu ĐRL</Text>
                 
             </TouchableOpacity>
         </View>

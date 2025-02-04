@@ -4,6 +4,7 @@ import { Card } from 'react-native-paper';
 import MyContext from "../../configs/MyContext";
 import { authApi, endpoints } from "../../configs/API";
 import Style from "./styles";
+import { useNavigation } from "@react-navigation/native";
 
 const Missing = ({ route }) => {
     const detailActivityId = route.params?.detailActivityId;
@@ -13,6 +14,7 @@ const Missing = ({ route }) => {
     const accessToken = user?.token;
     const formData = new FormData();
     formData.append('evidence', evidence);
+    const nav = useNavigation();
     const submitEvidence = async () => {
         if (!accessToken) {
             Alert.alert("Lỗi", "Bạn cần đăng nhập để gửi minh chứng.");
@@ -35,7 +37,16 @@ const Missing = ({ route }) => {
                 }
             );
             if (response.status === 201) {
-                Alert.alert("Thành công", "Minh chứng đã được gửi thành công!");
+                  Alert.alert(
+                                "Thành công",
+                                "Đã tải minh chứng thành công!",
+                                [
+                                    {
+                                        text: "OK",
+                                        onPress: () => nav.navigate("ListRegister")
+                                    }
+                                ]
+                            );
                 setEvidence(""); 
             } else {
                 Alert.alert("Lỗi", "Không thể gửi minh chứng. Vui lòng thử lại.");

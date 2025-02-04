@@ -176,12 +176,6 @@ const DetailActivity = ({ route }) => {
                         >
                             <Text style={DetailStyle.registerButtonText}>Đăng ký</Text>
                         </TouchableOpacity>
-                        <TouchableOpacity
-                            style={[DetailStyle.registerButton, { marginLeft: 10, backgroundColor: '#e74c3c' }]} // Màu nút báo thiếu
-                            onPress={() => nav.navigate("Missing", { "detailActivityId": item.id })}
-                        >
-                            <Text style={DetailStyle.registerButtonText}>Báo thiếu</Text>
-                        </TouchableOpacity>
                     </Card.Content>
                 </Card>
             ))}

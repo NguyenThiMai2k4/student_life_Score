@@ -21,20 +21,16 @@ import ProfileUser from './components/User/ProfileUser.js';
 import ExtractActivity from "./components/Assistant/ExtractActivity";
 import AddExtractActivity from "./components/Assistant/ExtractActivity";
 import AddDetailActivity from "./components/Assistant/AddDetailActivity";
+import FacultyList from './components/MissingList/FacultyList.js';
+import MissingList from './components/MissingList/MissingList.js';
+import StudentList from './components/StudentList/StudentList.js';
+import StudentDetail from './components/StudentList/StudentDetail.js';
+import MissingStudent from './components/StudentList/MissingStudent.js';
+import ViewPointStudent from './components/StudentList/ViewPointStudent.js';
 
 
 const Drawer = createDrawerNavigator();
 const Stack = createNativeStackNavigator();
-
-// const assistantScreen = () => {
-//     return (
-//         <Stack.Navigator initialRouteName="AddExtractActivity">
-//             <Stack.Screen name={"AddExtractActivity"} component={AddExtractActivity} options={{headerShown:false}}/>
-//             <Stack.Screen name={"AddDetailActivity"} component={AddDetailActivity} options={{title:"Thêm chi tiết hoạt động"}}/>
-//         </Stack.Navigator>
-//     )
-
-// }
 
 const HomeStack = ({ user }) => (
     <Stack.Navigator>
@@ -50,9 +46,16 @@ const Tool = () => (
         <Stack.Screen name="ViewPoint" component={ViewPoint} options={{title:"Xem điểm rèn luyện"}} />
         <Stack.Screen name="Missing" component={Missing} options={{title: "Báo thiếu hoạt động"}}/>
         <Stack.Screen name="StatsFaculty" component={StatsFaculty} options={{title: "Xem thống kê"}} />
+        <Stack.Screen name="DetailActivity" component={DetailActivity} options={{ title: "Chi tiết hoạt động" }} />
         <Stack.Screen name="AddDetailActivity" component={AddDetailActivity} options={{title:"Thêm chi tiết hoạt động"}}/>
         <Stack.Screen name="AddExtractActivity" component={AddExtractActivity} options={{headerShown:false}}/>
         <Stack.Screen name="HomeScreen" component={HomeScreen} options={{ title: 'Home'}} />
+        <Stack.Screen name="FacultyList" component={FacultyList} options={{ tittle: 'Danh sách báo thiếu' }} />
+        <Stack.Screen name="MissingList" component={MissingList} options={{ tittle: 'Danh sách báo thiếu theo khoa' }} />
+        <Stack.Screen name="StudentList" component={StudentList} options={{ tittle: 'Danh sách sinh viên' }} />
+        <Stack.Screen name="StudentDetail" component={StudentDetail} options={{ tittle: 'Hồ sơ sinh viên' }} />
+        <Stack.Screen name="MissingStudent" component={MissingStudent} options={{ tittle: 'Danh sách báo thiếu sinh viên' }} />
+        <Stack.Screen name="ViewPointStudent" component={ViewPointStudent} options={{ tittle: 'Thành tích sinh viên' }} />
     </Stack.Navigator>
 )
 
@@ -83,7 +86,6 @@ export default function App() {
                         </Drawer.Screen>
                         <Drawer.Screen name="ProfileUser" component={ProfileUser} options={{ title:"Hồ sơ" }}  />
                         <Drawer.Screen name="Tool" component={Tool} options={{ title:"Chức năng" }}  />
-                        <Drawer.Screen name="VerifyOTP" component={VerifyOTP} />
                         <Drawer.Screen name="Logout" component={Logout} />
                     </Drawer.Navigator>
                 )}

@@ -3,6 +3,7 @@ const HOST = 'https://pointapp.pythonanywhere.com'
 
 export const endpoints = {
     'student': '/student/',
+    'list_missing': (studentId)=>`student/${studentId}/get_list_missing/`,
     'register': '/user/register/',
     'login': '/o/token/',
     'current-user': '/user/current-user/',
@@ -21,6 +22,10 @@ export const endpoints = {
     'profile': (userId) => `/user/${userId}/profile/`,
     'create_extract_activity':criteriaId=>`/criteria/${criteriaId}/get_activity/`,
     'detail_activity_create': activityId =>`/extract_activity/${activityId}/detail_activity/`,
+    'faculty' : '/faculty/',
+    'get_list_missing' : (facultyId) => `faculty/${facultyId}/get_list_missing/`,
+    'confirm_register_detail_activity': (registerId) =>`register_extract_activity/${registerId}/confirm_register_detail_activity/`,
+    'cancel_register_detail_activity': (registerId) =>`register_extract_activity/${registerId}/cancel_register_detail_activity/`,
 }
 
 export const authApi = (accessToken) => {
