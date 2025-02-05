@@ -1,9 +1,9 @@
 import React, { useState, useContext, useEffect } from "react";
 import { Alert, View, Text, ScrollView, ActivityIndicator } from 'react-native';
-import { Card } from 'react-native-paper'; // Dùng Card để hiển thị đẹp hơn
+import { Card } from 'react-native-paper';
 import MyContext from "../../configs/MyContext";
 import { authApi, endpoints } from "../../configs/API";
-import ViewPointStyles from "./ViewPointStyles"; // Import styles mới
+import ViewPointStyles from "./ViewPointStyles"; 
 
 const ViewPoint = () => {
     const [user] = useContext(MyContext);
