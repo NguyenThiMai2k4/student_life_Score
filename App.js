@@ -29,7 +29,6 @@ import MissingStudent from './components/StudentList/MissingStudent.js';
 import ViewPointStudent from './components/StudentList/ViewPointStudent.js';
 import ManagerUser from "./components/Advisor/ManagerUser";
 
-
 const Drawer = createDrawerNavigator();
 const Stack = createNativeStackNavigator();
 
@@ -62,9 +61,9 @@ const Tool = () => (
     </Stack.Navigator>
 )
 
+
 export default function App() {
     const [user, dispatch] = useReducer(MyUserReducer, null);
-
 
     return (
         <MyContext.Provider value={[user, dispatch]}>
