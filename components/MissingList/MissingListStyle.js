@@ -61,6 +61,20 @@ const MissingListStyle = StyleSheet.create({
         fontSize: 12,
         fontWeight: 'bold',
     },
+    rejectButton:{
+        backgroundColor: '#78B3CE', 
+        paddingVertical: 8,
+        paddingHorizontal: 15,
+        borderRadius: 5,
+        margin: 5,
+    },
+    rejectButtonText:{
+        color: '#FFFFFF',
+        fontSize: 14,
+        fontWeight: 'bold',
+    }
+
+
 });
 
 export default MissingListStyle;

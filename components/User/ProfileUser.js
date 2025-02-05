@@ -8,7 +8,7 @@ import Style from "./Style";
 const ProfileUser = () => {
     const [profile, setProfile] = useState({});
     const [user, dispatch] = useContext(MyContext);
-    const [loading, setLoading] = useState(false); 
+    const [loading, setLoading] = useState(false);
     const accessToken = user?.token;
     const userId = user?.id;
 
@@ -51,6 +51,10 @@ const ProfileUser = () => {
                     </View>
                     {profile.student && (
                         <>
+                            <View style={Style.infoRow}>
+                                <Text style={Style.infoLabel}>ID sinh viên:</Text>
+                                <Text style={Style.infoValue}>{profile.student.id}</Text>
+                            </View>
                             <View style={Style.infoRow}>
                                 <Text style={Style.infoLabel}>Tên:</Text>
                                 <Text style={Style.infoValue}>{profile.student.name}</Text>

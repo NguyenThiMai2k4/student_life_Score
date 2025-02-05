@@ -16,6 +16,7 @@ const Feature = ({ navigation }) => {
             { screen: "AddExtractActivity", label: "Đăng ký hoạt động" },
             { screen: "StudentList", label: "Danh sách sinh viên" },
             { screen: "FacultyList", label: "Danh sách báo thiếu ĐRL" },
+            { screen: "ActivityConfirm", label: "Điểm danh sinh viên tham gia" },
         ],
         ADVISOR: [
             { screen: "StatsFaculty", label: "Xem thống kê" },
@@ -23,6 +24,7 @@ const Feature = ({ navigation }) => {
             { screen: "ManagerUser", label: "Quản lý User" },
             { screen: "StudentList", label: "Danh sách sinh viên" },
             { screen: "FacultyList", label: "Danh sách báo thiếu ĐRL" },
+            { screen: "ActivityConfirm", label: "Điểm danh sinh viên tham gia" },
         ],
     };
 
