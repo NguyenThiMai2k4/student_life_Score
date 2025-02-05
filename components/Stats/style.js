@@ -18,7 +18,7 @@ export default StyleSheet.create({
     statButton: {
         backgroundColor: "#3b5998",
         borderRadius: 10,
-        marginVertical: 5, // Thêm margin để các nút không dính nhau
+        marginVertical: 5, 
         width: "80%",
     },
     statButtonText: {
@@ -64,5 +64,29 @@ export default StyleSheet.create({
     },
     loading: {
         marginTop: 50,
-    }
+    },
+    exportButtonsContainer: {
+        flexDirection: "row",
+        justifyContent: "space-between",
+        alignItems: "center",
+    },
+    
+    exportButton: {
+        flex: 1,
+        backgroundColor: "#3b5998", // Màu nền xanh
+        paddingVertical: 6,
+        marginHorizontal: 5,
+        borderRadius: 8,
+        borderWidth: 1,
+        width: 40,
+        borderColor: "#0056b3",
+        alignItems: "center",
+    },
+    
+    exportButtonText: {
+        color: "#fff", // Màu chữ trắng
+        fontSize: 10,
+        fontWeight: "bold",
+    },
+    
 });

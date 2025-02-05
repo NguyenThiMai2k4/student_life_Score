@@ -4,6 +4,11 @@ import { BarChart } from "react-native-chart-kit";
 import MyContext from "../../configs/MyContext";
 import { authApi, endpoints } from "../../configs/API";
 import styles from './style';
+import * as FileSystem from 'expo-file-system';
+import * as Sharing from 'expo-sharing';
+import * as Print from 'expo-print';
+import { Alert } from "react-native";
+
 const screenWidth = Dimensions.get("window").width;
 
 const StatsFaculty = () => {
@@ -113,6 +118,87 @@ const StatsFaculty = () => {
             );
         }
     };
+    const exportToCSV = async () => {
+        try {
+            setLoading(true);
+            let data = [];
+            if (selectedStat === 'class') {
+                data = statsClass.map(item => [item.class_name, item.avg_points]);
+            } else if (selectedStat === 'faculty') {
+                data = statsFaculty.map(item => [item.name, item.avg_points]);
+            } else if (selectedStat === 'rank') {
+                data = statsRank.map(item => [item.rank, item.count]);
+            }
+            const headers = "Tên, Giá trị\n";
+            const csvContent = data.reduce((acc, item) => acc + `${item[0]}, ${item[1]}\n`, headers);
+            const fileName = `stats_${selectedStat}_${new Date().getTime()}.csv`;
+            const filePath = `${FileSystem.documentDirectory}${fileName}`;
+            await FileSystem.writeAsStringAsync(filePath, csvContent, {
+                encoding: FileSystem.EncodingType.UTF8
+            });
+            if (await Sharing.isAvailableAsync()) {
+                await Sharing.shareAsync(filePath);
+            } else {
+                Alert.alert("Lỗi", "Không thể chia sẻ file trên thiết bị này.");
+            }
+            Alert.alert("Thành công", "File CSV đã được tạo và có thể chia sẻ.");
+        } catch (error) {
+            console.error("Lỗi khi xuất CSV:", error);
+            Alert.alert("Lỗi", "Không thể xuất file CSV.");
+        } finally {
+            setLoading(false);
+        }
+    };
+    const exportToPDF = async () => {
+        try {
+            setLoading(true);
+            let data = '';
+            if (selectedStat === 'class') {
+                data = statsClass.map(item => `<tr><td>${item.class_name}</td><td>${item.avg_points}</td></tr>`).join('');
+            } else if (selectedStat === 'faculty') {
+                data = statsFaculty.map(item => `<tr><td>${item.name}</td><td>${item.avg_points}</td></tr>`).join('');
+            } else if (selectedStat === 'rank') {
+                data = statsRank.map(item => `<tr><td>${item.rank}</td><td>${item.count}</td></tr>`).join('');
+            }
+
+            const htmlContent = `
+                <html>
+                <head>
+                    <style>
+                        table { width: 100%; border-collapse: collapse; }
+                        th, td { border: 1px solid black; padding: 8px; text-align: left; }
+                        th { background-color: #f2f2f2; }
+                    </style>
+                </head>
+                <body>
+                    <h2>Thống kê ${selectedStat === 'class' ? 'Lớp' : selectedStat === 'faculty' ? 'Khoa' : 'Thành tích'}</h2>
+                    <table>
+                        <tr>
+                            <th>${selectedStat === 'rank' ? 'Xếp loại' : 'Tên'}</th>
+                            <th>${selectedStat === 'rank' ? 'Số lượng' : 'Điểm trung bình'}</th>
+                        </tr>
+                        ${data}
+                    </table>
+                </body>
+                </html>
+            `;
+
+            const { uri } = await Print.printToFileAsync({ html: htmlContent });
+            if (await Sharing.isAvailableAsync()) {
+                await Sharing.shareAsync(uri);
+            } else {
+                Alert.alert("Lỗi", "Không thể chia sẻ file trên thiết bị này.");
+            }
+
+            Alert.alert("Thành công", "File PDF đã được tạo và có thể chia sẻ.");
+        } catch (error) {
+            console.error("Lỗi khi xuất PDF:", error);
+            Alert.alert("Lỗi", "Không thể xuất file PDF.");
+        } finally {
+            setLoading(false);
+        }
+    };
+
     return (
         <View style={styles.container}>
             <View style={styles.statSelectionContainer}>
@@ -143,6 +229,14 @@ const StatsFaculty = () => {
             ) : (
                 <>
                     <ScrollView style={styles.scrollView}>
+                        <View style={styles.exportButtonsContainer}>
+                            <TouchableOpacity style={styles.exportButton} onPress={exportToCSV}>
+                                <Text style={styles.exportButtonText}>Xuất CSV</Text>
+                            </TouchableOpacity>
+                            <TouchableOpacity style={styles.exportButton} onPress={exportToPDF}>
+                                <Text style={styles.exportButtonText}>Xuất PDF</Text>
+                            </TouchableOpacity>
+                        </View>
                         <ScrollView horizontal={true} style={styles.chartContainer}>
                             <BarChart
                                 data={chartData}

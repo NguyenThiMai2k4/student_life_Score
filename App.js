@@ -49,7 +49,7 @@ const Tool = () => (
         <Stack.Screen name="ListRegister" component={ListRegister}/>
         <Stack.Screen name="ViewPoint" component={ViewPoint} options={{title:"Xem điểm rèn luyện"}} />
         <Stack.Screen name="Missing" component={Missing} options={{title: "Báo thiếu hoạt động"}}/>
-        <Stack.Screen name="StatsFaculty" component={StatsFaculty} options={{title: "Xem thống kê"}} />
+        <Stack.Screen name="StatsFaculty" component={StatsFaculty} options={{title: "Xem thống kê", headerShown:false}} />
         <Stack.Screen name="DetailActivity" component={DetailActivity} options={{ title: "Chi tiết hoạt động" }} />
         <Stack.Screen name="AddDetailActivity" component={AddDetailActivity} options={{title:"Thêm chi tiết hoạt động"}}/>
         <Stack.Screen name="AddExtractActivity" component={AddExtractActivity} options={{headerShown:false}}/>

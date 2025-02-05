@@ -6,8 +6,8 @@ import {FirebaseRecaptchaVerifierModal} from "expo-firebase-recaptcha";
 import {firebaseConfig} from "../../firebaseConfig";
 
 const VerifyOTP = ({route}) => {
-    const {userData} = route.params; // Lấy dữ liệu từ navigation
-    const email = userData.email; // Lấy email từ formData
+    const {userData} = route.params; 
+    const email = userData.email; 
 
     const [otp, setOtp] = useState('');
     const [verificationId, setVerificationId] = useState(null);
@@ -27,7 +27,6 @@ const VerifyOTP = ({route}) => {
         try {
             await firebase.auth().confirmPasswordReset(verificationId, otp);
             Alert.alert("Thành công", "Email đã được xác thực");
-            // Thực hiện các hành động tiếp theo sau khi xác thực
         } catch (error) {
             Alert.alert("Lỗi", "Mã OTP không chính xác");
         }
