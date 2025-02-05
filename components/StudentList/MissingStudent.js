@@ -38,12 +38,11 @@ const MissingStudent = ({ route }) => {
     }, {}) : {};
 
     const handleAccept = (itemId) => {
-        // Implement the logic for accepting the activity here
+
         console.log(`Accepted: ${itemId}`);
     };
 
     const handleReject = (itemId) => {
-        // Implement the logic for rejecting the activity here
         console.log(`Rejected: ${itemId}`);
     };
         const confirmMissing = async (itemId) => {

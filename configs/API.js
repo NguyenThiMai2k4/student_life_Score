@@ -30,7 +30,9 @@ export const endpoints = {
     'activity_delete': activityId =>`/extract_activity/${activityId}/`,
     'detail_activity_delete': detailActivityId =>`/detail_extract_activity/${detailActivityId}/`,
     'patch_role':  (userId) => `/user/${userId}/update/`,
-
+    // 'get_register_detail_activity': (detailId) => `/detail_extract_activity/${detailId}/get_register_detail_activity/`,
+    'get_register_detail_activity': (extractActivityId) => `extract_activity/${extractActivityId}/get_register_detail_activity/`,
+    'update_status_register_detail_activity' : '/register_detail_activity'
 }
 
 export const authApi = (accessToken) => {

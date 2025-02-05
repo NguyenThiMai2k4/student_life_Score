@@ -28,6 +28,8 @@ import StudentDetail from './components/StudentList/StudentDetail.js';
 import MissingStudent from './components/StudentList/MissingStudent.js';
 import ViewPointStudent from './components/StudentList/ViewPointStudent.js';
 import ManagerUser from "./components/Advisor/ManagerUser";
+import ConfirmStudent from './components/Assistant/ConfirmStudent.js';
+import ActivityConfirm from './components/Assistant/ActivityConfirm.js';
 
 
 const Drawer = createDrawerNavigator();
@@ -58,7 +60,10 @@ const Tool = () => (
         <Stack.Screen name="StudentDetail" component={StudentDetail} options={{ tittle: 'Hồ sơ sinh viên' }} />
         <Stack.Screen name="MissingStudent" component={MissingStudent} options={{ tittle: 'Danh sách báo thiếu sinh viên' }} />
         <Stack.Screen name="ViewPointStudent" component={ViewPointStudent} options={{ tittle: 'Thành tích sinh viên' }} />
-        <Stack.Screen name={"ManagerUser"} component={ManagerUser} options={{title:"Quản lý User"}}/>
+        <Stack.Screen name="ManagerUser" component={ManagerUser} options={{title:"Quản lý User"}}/>
+        <Stack.Screen name="ActivityConfirm" component={ActivityConfirm} options={{ tittle: 'Điểm danh sinh viên tham gia' }} />
+        <Stack.Screen name="ConfirmStudent" component={ConfirmStudent} options={{ tittle: 'Điểm danh sinh viên tham gia' }} />
+    
     </Stack.Navigator>
 )
 
