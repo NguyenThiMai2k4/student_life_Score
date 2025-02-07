@@ -30,17 +30,18 @@ import ViewPointStudent from './components/StudentList/ViewPointStudent.js';
 import ManagerUser from "./components/Advisor/ManagerUser";
 import ConfirmStudent from './components/Assistant/ConfirmStudent.js';
 import ActivityConfirm from './components/Assistant/ActivityConfirm.js';
-
+import Chat from './components/Chat/Chat.js';
 
 const Drawer = createDrawerNavigator();
 const Stack = createNativeStackNavigator();
 
 const HomeStack = ({ user }) => (
     <Stack.Navigator>
-        <Stack.Screen name="HomeScreen" component={HomeScreen} options={{ title: user?.email || 'Home' }} />
+        <Stack.Screen name="HomeScreen" component={HomeScreen} options={{ headerShown:false }} />
         <Stack.Screen name="DetailActivity" component={DetailActivity} options={{ title: "Chi tiết hoạt động" }} />
         <Stack.Screen name="AddDetailActivity" component={AddDetailActivity} options={{title:"Thêm chi tiết hoạt động"}}/>
         <Stack.Screen name="Missing" component={Missing} options={{title: "Báo thiếu hoạt động"}}/>
+        <Stack.Screen name="Chat" component={Chat} options={{title: "Chat Community"}}/>
     </Stack.Navigator>
 );
 const Tool = () => (
@@ -63,9 +64,9 @@ const Tool = () => (
         <Stack.Screen name="ManagerUser" component={ManagerUser} options={{title:"Quản lý User"}}/>
         <Stack.Screen name="ActivityConfirm" component={ActivityConfirm} options={{ tittle: 'Điểm danh sinh viên tham gia' }} />
         <Stack.Screen name="ConfirmStudent" component={ConfirmStudent} options={{ tittle: 'Điểm danh sinh viên tham gia' }} />
-    
+        <Stack.Screen name="Chat" component={Chat} options={{title: "Chat Community"}}/>
     </Stack.Navigator>
-)
+);
 
 export default function App() {
     const [user, dispatch] = useReducer(MyUserReducer, null);

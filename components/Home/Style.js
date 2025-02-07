@@ -47,5 +47,22 @@ marginTop: -50,
         width: 40,
         height: 40,
         borderRadius:10,
+    },
+    chatButton: {
+        position: "absolute",
+        bottom: 20,
+        right: 20,
+        height: 60,
+        width: 60,
+        borderRadius: 30,
+        backgroundColor: "#2973B2",
+        alignItems: 'center',
+        justifyContent: 'center',
+        shadowColor: "#000",
+        shadowOffset: { width: 0, height: 4 },
+        shadowOpacity: 0.3,
+        shadowRadius: 4,
+        elevation: 5,
     }
+    
 });

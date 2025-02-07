@@ -1,4 +1,4 @@
-import React, {useContext, useState} from 'react';
+import React, { useContext, useState } from 'react';
 import {
     View,
     Text,
@@ -12,13 +12,13 @@ import {
     ActivityIndicator
 } from 'react-native';
 import AntDesign from 'react-native-vector-icons/AntDesign';
-
 import Style from "./Style.js";
 import MyContext from "../../configs/MyContext";
-import API, {authApi, endpoints} from "../../configs/API";
+import API, { authApi, endpoints } from "../../configs/API";
+import { auth } from "../../configs/firebase.js";
+import { signInWithEmailAndPassword } from 'firebase/auth';
 
-
-const LoginScreen = ({navigation}) => {
+const LoginScreen = ({ navigation }) => {
     const [showPassword, setShowPassword] = useState(false);
     const [formData, setFormData] = useState({
         username: '',
@@ -30,6 +30,9 @@ const LoginScreen = ({navigation}) => {
     const login = async () => {
         try {
             setLoading(true);
+            //Auth Firebase
+            signInWithEmailAndPassword(auth, formData.username, formData.password).then(() => console.log("Login success")).catch((err) => console.log("Login Fail !!"));
+
             let res = await API.post(endpoints['login'], {
                 "username": formData.username,
                 "password": formData.password,
@@ -47,32 +50,21 @@ const LoginScreen = ({navigation}) => {
                 type: "login",
                 payload: {
                     user: user.data,
-                    token: res.data.access_token, 
+                    token: res.data.access_token,
                 },
             });
-            console.info("id user:"+user.data.id);
-
+            console.info("id user:" + user.data.id);
             if (res.data.success) {
-                 navigation.navigate("HomeScreen");
+                navigation.navigate("HomeScreen");
                 Alert.alert("Đăng nhập thành công")
             }
-            if(res.data.response)
+            if (res.data.response)
                 Alert.alert("Đăng nhập thất bại")
         } catch (ex) {
             console.error("Lỗi:", ex)
         } finally {
             setLoading(false)
         }
-
-        // if (formData.username === 'admin' && formData.password === '123') {
-        //     dispatch({
-        //         "type": "login",
-        //         "payload": {
-        //             "username": "admin",
-        //         }
-        //     });
-        //     navigation.navigate("HomeScreen");
-        // }
     };
     const googleIcon = require('../../assets/glogo.png');
     const goToSignup = () => {
@@ -100,7 +92,7 @@ const LoginScreen = ({navigation}) => {
                             style={Style.input}
                             placeholder="example@gmail.com"
                             value={formData.username}
-                            onChangeText={(text) => setFormData(prev => ({...prev, username: text}))}
+                            onChangeText={(text) => setFormData(prev => ({ ...prev, username: text }))}
                         />
                     </View>
 
@@ -109,10 +101,10 @@ const LoginScreen = ({navigation}) => {
                         <Text style={Style.label}>Password</Text>
                         <View style={Style.passwordContainer}>
                             <TextInput
-                                style={[{borderColor: 'white'}, {flex: 1}]}
+                                style={[{ borderColor: 'white' }, { flex: 1 }]}
                                 secureTextEntry={!showPassword}
                                 value={formData.password}
-                                onChangeText={(text) => setFormData(prev => ({...prev, password: text}))}
+                                onChangeText={(text) => setFormData(prev => ({ ...prev, password: text }))}
                             />
                             <TouchableOpacity
                                 style={Style.eyeIcon}
@@ -142,7 +134,7 @@ const LoginScreen = ({navigation}) => {
                                 formData.rememberMe && Style.checkboxChecked
                             ]}>
                                 {formData.rememberMe && (
-                                    <AntDesign name="check" size={16} color="white"/>
+                                    <AntDesign name="check" size={16} color="white" />
                                 )}
                             </View>
                             <Text style={Style.rememberText}>Remember me</Text>
@@ -155,10 +147,10 @@ const LoginScreen = ({navigation}) => {
 
                     {/* Login Button */}
                     <TouchableOpacity style={Style.loginButton}
-                                      onPress={login}>
+                        onPress={login}>
                         <Text style={Style.loginButtonText}>LOG IN</Text>
                         {loading && (
-                            <ActivityIndicator size="small" color="#FFF"/>
+                            <ActivityIndicator size="small" color="#FFF" />
                         )}
                     </TouchableOpacity>
 

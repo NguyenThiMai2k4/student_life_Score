@@ -18,6 +18,8 @@ import AntDesign from "react-native-vector-icons/AntDesign";
 import * as ImagePicker from 'expo-image-picker';
 import VerifyOTP from "./auth";
 import API, {endpoints} from "../../configs/API";
+import { createUserWithEmailAndPassword } from 'firebase/auth';
+import { auth } from "../../configs/firebase.js";
 
 const SignupScreen = ({route, navigation}) => {
 
@@ -90,6 +92,9 @@ const SignupScreen = ({route, navigation}) => {
         console.info("form: " + form);
 
         console.info("formData" + formData);
+        createUserWithEmailAndPassword(auth, formData.email, formData.password)
+        .then(() => console.log('Signup success'))
+        .catch((err) => Alert.alert("Login error", err.message));
 
         try {
             setLoading(true);
@@ -121,7 +126,7 @@ const SignupScreen = ({route, navigation}) => {
                 Alert.alert("Lỗi", ex.message || "Đã xảy ra lỗi không xác định.");
             }
         } finally {
-            setLoading(false); // Stop loading
+            setLoading(false);
         }
     }
     const togglePasswordVisibility = () => {
