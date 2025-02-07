@@ -1,9 +1,9 @@
 import React, {useRef, useState} from "react";
 import {TextInput, TouchableOpacity, Text, View, Alert} from "react-native";
 import MyStyle from "../../styles/MyStyle";
-import firebase from "firebase/compat/app";
-import {FirebaseRecaptchaVerifierModal} from "expo-firebase-recaptcha";
-import {firebaseConfig} from "../../firebaseConfig";
+// import firebase from "firebase/compat/app";
+// import {FirebaseRecaptchaVerifierModal} from "expo-firebase-recaptcha";
+// import {firebaseConfig} from "../../firebaseConfig";
 
 const VerifyOTP = ({route}) => {
     const {userData} = route.params; 
@@ -56,14 +56,14 @@ const VerifyOTP = ({route}) => {
                     </TouchableOpacity>
                 </View>
             </View>
-            <FirebaseRecaptchaVerifierModal
+            {/* <FirebaseRecaptchaVerifierModal
                 ref={recaptchaVerifier}
                 firebaseConfig={firebaseConfig}
                 title="Xác thực email"
                 cancelLabel="Hủy"
-            />
+            /> */}
         </View>
-    );
+    )
 };
 
 export default VerifyOTP;

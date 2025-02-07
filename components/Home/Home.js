@@ -16,10 +16,10 @@ import {
     FlatList, Alert
 } from 'react-native';
 import Style from "./Style.js";
-import React, {useContext, useState} from 'react'
-import APIs, {authApi, endpoints} from "../../configs/API";
-import {Chip, Searchbar, List} from 'react-native-paper';
-import {useNavigation} from "@react-navigation/native";
+import React, { useContext, useState } from 'react'
+import APIs, { authApi, endpoints } from "../../configs/API";
+import { Chip, Searchbar, List, Icon, MD3Colors } from 'react-native-paper';
+import { useNavigation } from "@react-navigation/native";
 import AntDesign from "react-native-vector-icons/AntDesign";
 import MyContext from "../../configs/MyContext";
 
@@ -94,7 +94,6 @@ const HomeScreen = () => {
                     setExtractActivity(current => [...current, ...res.data.results]);
                 else
                     setExtractActivity(res.data.results);
-
                 if (res.data.next === null)
                     setPage(0)
             } catch (ex) {
@@ -135,10 +134,10 @@ const HomeScreen = () => {
     return (
         <View style={Style.container}>
             <ImageBackground
-                style={[Style.headerImg, {paddingTop: StatusBar.currentHeight}]}
+                style={[Style.headerImg, { paddingTop: StatusBar.currentHeight }]}
                 source={require('../../assets/extractActivity.png')}
             >
-                <StatusBar translucent backgroundColor="black"/>
+                <StatusBar translucent backgroundColor="black" />
             </ImageBackground>
             <View style={Style.row}>
                 <TouchableOpacity onPress={() => search("", setCriteriaId)}>
@@ -150,38 +149,48 @@ const HomeScreen = () => {
                         <Chip style={Style.margin} icon="label">Điều {c.name}</Chip>
                     </TouchableOpacity>)}
             </View>
-            <Searchbar placeholder="Tìm hoạt động..." value={q} onChangeText={t => search(t, setQ)}/>
-            {loading && <ActivityIndicator/>}
+            <Searchbar placeholder="Tìm hoạt động..." value={q} onChangeText={t => search(t, setQ)} />
+            {loading && <ActivityIndicator />}
 
-            <FlatList onEndReached={loadMore} data={extract_activity} renderItem={({item}) =>
+            <FlatList onEndReached={loadMore} data={extract_activity} renderItem={({ item }) =>
                 <List.Item title={item.name} key={item.id}
-                           description={
-                               <View>
-                                   <Text>Ngày bắt đầu: {item.start_date}</Text>
-                                   <Text>Ngày kết thúc: {item.end_date}</Text>
-                               </View>
-                           }
-                           left={props => <List.Icon {...props} icon="folder"/>}
-                           right={props => (
-                               <View style={{flexDirection: 'row', alignItems: 'center'}}>
-                                   <TouchableOpacity
-                                       style={Style.detailButton}
-                                       onPress={() => nav.navigate("DetailActivity", {"activityId": item.id})}
-                                   >
-                                       <Text style={Style.detailButtonText}>Xem chi tiết</Text>
-                                   </TouchableOpacity>
-                                   {user.role === "ASSISTANT" || user.role === "ADVISOR" ? (
-                                       <TouchableOpacity
-                                           onPress={() => handleDelete(item.id)}
-                                           style={[MyStyle.iconDelete, {marginLeft: 10}]}
-                                       >
-                                           <AntDesign name="delete" size={16} color="red"/>
-                                       </TouchableOpacity>
-                                   ) : null}
-                               </View>
-                           )}
+                    description={
+                        <View>
+                            <Text>Ngày bắt đầu: {item.start_date}</Text>
+                            <Text>Ngày kết thúc: {item.end_date}</Text>
+                        </View>
+                    }
+                    left={props => <List.Icon {...props} icon="folder" />}
+                    right={props => (
+                        <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                            <TouchableOpacity
+                                style={Style.detailButton}
+                                onPress={() => nav.navigate("DetailActivity", { "activityId": item.id })}
+                            >
+                                <Text style={Style.detailButtonText}>Xem chi tiết</Text>
+                            </TouchableOpacity>
+                            {user.role === "ASSISTANT" || user.role === "ADVISOR" ? (
+                                <TouchableOpacity
+                                    onPress={() => handleDelete(item.id)}
+                                    style={[MyStyle.iconDelete, { marginLeft: 10 }]}
+                                >
+                                    <AntDesign name="delete" size={16} color="red" />
+                                </TouchableOpacity>
+                            ) : null}
+                        </View>
+                    )}
                 />
-            }/>
+            } />
+            <TouchableOpacity
+                onPress={() => nav.navigate("Chat")}
+                style={Style.chatButton}
+            >
+                <Icon
+                    source="chat"
+                    color={"#87CEEB"}
+                    size={20}
+                />
+            </TouchableOpacity>
         </View>
     )
 }
