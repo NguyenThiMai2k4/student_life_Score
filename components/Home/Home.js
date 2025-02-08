@@ -113,6 +113,7 @@ const HomeScreen = () => {
         let timer = setTimeout(() => loadExtractActivity(), 500);
         return () => clearTimeout(timer);
     }, [criteriaId, q, page]);
+    
     React.useEffect(() => {
         loadCriteria();
     })
@@ -145,7 +146,7 @@ const HomeScreen = () => {
 
                 </TouchableOpacity>
                 {criteria.map(c =>
-                    <TouchableOpacity key={c.name} onPress={() => search(c.name, setCriteriaId)}>
+                    <TouchableOpacity key={c.id} onPress={() => search(c.id, setCriteriaId)}>
                         <Chip style={Style.margin} icon="label">Điều {c.name}</Chip>
                     </TouchableOpacity>)}
             </View>
