@@ -37,6 +37,7 @@ const AddExtractActivity = ({route, navigation}) => {
         endDate: null,
         discription: '',
         criteria: null,
+        criteria_name:'',
     });
     const [criteria, setCriteria] = React.useState([]);
 
@@ -47,7 +48,7 @@ const AddExtractActivity = ({route, navigation}) => {
         let res = await APIs.get(endpoints['criteria']);
         const formattedCriteria = res.data.results.map(item => ({
             label: `Điều ${item.name}`,
-            value: item.name,
+            value: item.id,
             semester: item.semester
 
         }));
@@ -101,6 +102,7 @@ const AddExtractActivity = ({route, navigation}) => {
                 activityData: {
                     name: formData.name,
                     criteria: formData.criteria,
+                    criteria_name:formData.criteria_name,
                     description: formData.discription,
                     startDate: formatDate(formData.startDate),
                     endDate: formatDate(formData.endDate)
@@ -275,7 +277,7 @@ const AddExtractActivity = ({route, navigation}) => {
                                 }}
                                 onSelectItem={(item) => {
                                     console.info("select item:", item.value)
-                                    setFormData(prev => ({...prev, criteria: item.value}));
+                                    setFormData(prev => ({...prev, criteria: item.value,criteria_name: item.label}));
                                 }}
                             />
                         </View>

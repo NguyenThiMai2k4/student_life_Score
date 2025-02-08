@@ -133,7 +133,7 @@ const AddDetailActivity = ({route, navigation}) => {
             <Card style={styles.card}>
                 <Card.Content>
                     <Text style={styles.description}>Tên hoạt động: {activityData?.name}</Text>
-                    <Text style={styles.detail}>Điều: {activityData?.criteria}</Text>
+                    <Text style={styles.detail}>{activityData?.criteria_name}</Text>
                     <Text style={styles.detail}>Mô tả: {activityData?.description} </Text>
                     <Text style={styles.detail}>Ngày bắt đầu: {activityData?.startDate}</Text>
                     <Text style={styles.detail}>Ngày kết thúc: {activityData?.endDate}</Text>

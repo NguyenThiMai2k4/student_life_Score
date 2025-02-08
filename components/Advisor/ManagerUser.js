@@ -70,6 +70,7 @@ const ManagerUser = ({ navigation }) => {
 
         try {
             setLoading(true);
+            console.log("userId: ",userId);
             const newRole = roleChoose === 'ASSISTANT' ? 'STUDENT' : 'ASSISTANT'; // Đảo vai trò
 
             const res = await authApi(accessToken).patch(endpoints["patch_role"](userId), {
