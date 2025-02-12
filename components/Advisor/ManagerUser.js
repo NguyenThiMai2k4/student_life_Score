@@ -194,10 +194,6 @@ const ManagerUser = ({ navigation }) => {
                                 </>
                             )}
                         </View>
-
-                        <TouchableOpacity style={Style.editButton}>
-                            <Text style={Style.editButtonText}>Chỉnh sửa hồ sơ</Text>
-                        </TouchableOpacity>
                     </Card>
                 </ScrollView>
             ) :
