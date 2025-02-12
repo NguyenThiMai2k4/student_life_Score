@@ -72,7 +72,19 @@ const AddDetailActivity = ({route, navigation}) => {
                 [
                     {
                         text: "OK",
-                        onPress: () => navigation.navigate("HomeScreen")
+                        onPress: () => navigation.reset({
+                            index: 0,
+                            routes: [
+                                {
+                                    name: 'HomeStack',
+                                    state: {
+                                        routes: [
+                                            {name: 'HomeScreen'}
+                                        ]
+                                    }
+                                }
+                            ]
+                        })
                     }
                 ]
             );
